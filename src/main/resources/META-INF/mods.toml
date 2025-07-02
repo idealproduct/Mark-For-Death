@@ -1,0 +1,13 @@
+modLoader="javafml"
+loaderVersion="[43,)"  # Forge 1.19.2 43.x 版本以上都通用
+license="MIT"
+issueTrackerURL="https://github.com/idealproduct/MarkedForDeath/issues"
+[[mods]]
+modId="markedfordeath"
+version="1.0.0"
+displayName="Marked for Death"
+description='''
+一個Minecraft 1.19.2的追殺模組，讓你和朋友展開刺激的心理戰。
+'''
+authors="林柏翰，林奕丞"
+credits="由林柏翰和林奕丞開發"
