@@ -16,6 +16,9 @@ public class ModItems {
     public static final RegistryObject<Item> BLADE_OF_TRUST = ITEMS.register("blade_of_trust",
             () -> new BladeOfTrustItem(Tiers.IRON, 4, -2.4F, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
 
+    public static final RegistryObject<Item> SMOKE_BOMB = ITEMS.register("smoke_bomb",
+            () -> new SmokeBombItem(new Item.Properties().stacksTo(16).tab(CreativeModeTab.TAB_COMBAT)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

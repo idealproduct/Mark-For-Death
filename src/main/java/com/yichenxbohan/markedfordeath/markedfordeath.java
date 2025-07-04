@@ -3,6 +3,7 @@ package com.yichenxbohan.markedfordeath;
 import com.mojang.logging.LogUtils;
 import com.yichenxbohan.markedfordeath.command.SpawnCommand;
 import com.yichenxbohan.markedfordeath.command.TargetCommand;
+import com.yichenxbohan.markedfordeath.event.WeaponQualityApplier;
 import com.yichenxbohan.markedfordeath.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.BlockItem;
@@ -55,6 +56,7 @@ public class markedfordeath
         ModItems.register(modEventBus);
         // Register the commonSetup method for modloading
         MinecraftForge.EVENT_BUS.addListener(this::onRegisterCommands);
+        MinecraftForge.EVENT_BUS.register(WeaponQualityApplier.class);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
