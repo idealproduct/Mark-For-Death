@@ -3,6 +3,7 @@ package com.yichenxbohan.markedfordeath;
 import com.mojang.logging.LogUtils;
 import com.yichenxbohan.markedfordeath.command.SpawnCommand;
 import com.yichenxbohan.markedfordeath.command.TargetCommand;
+import com.yichenxbohan.markedfordeath.entity.ModEntities;
 import com.yichenxbohan.markedfordeath.event.WeaponQualityApplier;
 import com.yichenxbohan.markedfordeath.item.ModItems;
 import net.minecraft.client.Minecraft;
@@ -29,6 +30,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 
+import static com.yichenxbohan.markedfordeath.entity.ModEntities.ENTITIES;
+
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(markedfordeath.MODID)
 public class markedfordeath
@@ -53,10 +56,12 @@ public class markedfordeath
     public markedfordeath(FMLJavaModLoadingContext context)
     {
         IEventBus modEventBus = context.getModEventBus();
+        //IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModItems.register(modEventBus);
         // Register the commonSetup method for modloading
         MinecraftForge.EVENT_BUS.addListener(this::onRegisterCommands);
         MinecraftForge.EVENT_BUS.register(WeaponQualityApplier.class);
+        ModEntities.ENTITIES.register(modEventBus);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);

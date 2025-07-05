@@ -19,6 +19,10 @@ public class ModItems {
     public static final RegistryObject<Item> SMOKE_BOMB = ITEMS.register("smoke_bomb",
             () -> new SmokeBombItem(new Item.Properties().stacksTo(16).tab(CreativeModeTab.TAB_COMBAT)));
 
+    public static final RegistryObject<Item> TRACKING_EYE = ITEMS.register("tracking_eye",
+            () -> new TrackingEye(new Item.Properties().stacksTo(16)));
+
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

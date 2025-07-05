@@ -10,11 +10,18 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 public class TargetUtils {
 
     public static final String TARGET_TEAM_NAME = "marked_target";
+
+    // 管理追殺目標 (追殺者UUID -> 被追殺者UUID)
+    private static final Map<UUID, UUID> targetMap = new HashMap<>();
+    private static final HashMap<UUID, UUID> targets = new HashMap<>();
 
     // 加入紅色隊伍並設置只近距離可見
     public static void markPlayerWithRedName(ServerPlayer player) {
@@ -35,6 +42,38 @@ public class TargetUtils {
     public static void clearRedName(ServerPlayer player) {
         Scoreboard scoreboard = player.getScoreboard();
         scoreboard.removePlayerFromTeam(player.getScoreboardName());
+    }
+
+    // 設定追殺目標
+    public static void setTarget(ServerPlayer hunter, ServerPlayer target) {
+        if (hunter == null || target == null) return;
+        targetMap.put(hunter.getUUID(), target.getUUID());
+        markPlayerWithRedName(target);
+    }
+
+    // 取得追殺目標
+    public static ServerPlayer getTarget(ServerPlayer hunter) {
+        if (hunter == null) return null;
+        UUID targetUUID = targetMap.get(hunter.getUUID());
+        if (targetUUID == null) return null;
+        if (hunter.getServer() == null) return null;
+        return hunter.getServer().getPlayerList().getPlayer(targetUUID);
+    }
+
+    // 清除追殺目標
+    public static void clearTarget(ServerPlayer hunter) {
+        if (hunter == null) return;
+        UUID targetUUID = targetMap.remove(hunter.getUUID());
+        if (targetUUID != null && hunter.getServer() != null) {
+            ServerPlayer target = hunter.getServer().getPlayerList().getPlayer(targetUUID);
+            if (target != null) clearRedName(target);
+        }
+    }
+
+    // 是否有設定追殺目標
+    public static boolean hasTarget(ServerPlayer hunter) {
+        if (hunter == null) return false;
+        return targetMap.containsKey(hunter.getUUID());
     }
 
     // 找出X,Z座標上最高的安全Y高度
