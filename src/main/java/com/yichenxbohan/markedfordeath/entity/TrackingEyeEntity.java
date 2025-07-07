@@ -2,6 +2,9 @@ package com.yichenxbohan.markedfordeath.entity;
 
 import com.yichenxbohan.markedfordeath.util.TargetUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -28,25 +31,39 @@ public class TrackingEyeEntity extends EyeOfEnder {
         if (ownerUUID == null || !(level instanceof ServerLevel serverLevel)) return null;
         return serverLevel.getServer().getPlayerList().getPlayer(ownerUUID);
     }
-
+    ServerPlayer owner,target;
+    Vec3 targetPos,currentPos,direction,velocity;
     @Override
     public void tick() {
-        super.tick();
+        super.baseTick();
 
-        if (!level.isClientSide && tickCount == 60) {
-            ServerPlayer owner = getOwnerPlayer();
-            if (owner == null) {
-                this.discard();
-                return;
+        if (!level.isClientSide) {
+            if(tickCount == 1){
+                owner = getOwnerPlayer();
+                if (owner == null) {
+                    this.discard();
+                    return;
+                }
+                target = TargetUtils.getTarget(owner);
+                //targetPos = target.position();
+                targetPos = new Vec3(0,60,0);
+                currentPos = this.position();
+                direction = targetPos.subtract(currentPos).normalize();
+                double speed = 0.4;
+                velocity = direction.scale(speed);
             }
 
-            ServerPlayer target = TargetUtils.getTarget(owner);
-            if (target != null) {
-                BlockPos pos = target.blockPosition();
-                this.signalTo(pos);
-            } else {
-                this.discard();
-            }
+
+            // 更新移動向量
+            owner.sendSystemMessage(Component.literal(velocity.toString()));
+
+            this.setDeltaMovement(velocity);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+
+
+        }
+        if(tickCount > 40){
+            this.discard();
         }
     }
 
