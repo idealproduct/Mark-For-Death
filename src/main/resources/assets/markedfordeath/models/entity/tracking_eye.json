@@ -1,6 +1,6 @@
 {
   "parent": "builtin/entity",
   "textures": {
-    "layer0": "markedfordeath:item/tracking_eye"
+    "layer0": "markedfordeath:entity/tracking_eye"
   }
 }

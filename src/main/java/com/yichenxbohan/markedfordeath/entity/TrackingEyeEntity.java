@@ -33,7 +33,7 @@ public class TrackingEyeEntity extends EyeOfEnder {
     public void tick() {
         super.tick();
 
-        if (!level.isClientSide && tickCount == 1) {
+        if (!level.isClientSide && tickCount == 60) {
             ServerPlayer owner = getOwnerPlayer();
             if (owner == null) {
                 this.discard();
@@ -50,7 +50,6 @@ public class TrackingEyeEntity extends EyeOfEnder {
         }
     }
 
-    @Override
     public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
