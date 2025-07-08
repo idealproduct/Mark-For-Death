@@ -40,13 +40,13 @@ public class TrackingEyeEntity extends EyeOfEnder {
         if (!level.isClientSide) {
             if(tickCount == 1){
                 owner = getOwnerPlayer();
-                if (owner == null) {
+                target = TargetUtils.getTarget();
+                if (owner == null||target==null) {
                     this.discard();
                     return;
                 }
-                target = TargetUtils.getTarget(owner);
-                //targetPos = target.position();
-                targetPos = new Vec3(0,60,0);
+                targetPos = target.position();
+                //targetPos = new Vec3(0,60,0);
                 currentPos = this.position();
                 direction = targetPos.subtract(currentPos).normalize();
                 double speed = 0.4;

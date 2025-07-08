@@ -20,8 +20,7 @@ public class TargetUtils {
     public static final String TARGET_TEAM_NAME = "marked_target";
 
     // 管理追殺目標 (追殺者UUID -> 被追殺者UUID)
-    private static final Map<UUID, UUID> targetMap = new HashMap<>();
-    private static final HashMap<UUID, UUID> targets = new HashMap<>();
+    public static ServerPlayer targets = null;
 
     // 加入紅色隊伍並設置只近距離可見
     public static void markPlayerWithRedName(ServerPlayer player) {
@@ -47,34 +46,23 @@ public class TargetUtils {
     // 設定追殺目標
     public static void setTarget(ServerPlayer hunter, ServerPlayer target) {
         if (hunter == null || target == null) return;
-        targetMap.put(hunter.getUUID(), target.getUUID());
+        targets = target;
         markPlayerWithRedName(target);
     }
 
     // 取得追殺目標
-    public static ServerPlayer getTarget(ServerPlayer hunter) {
-        if (hunter == null) return null;
-        UUID targetUUID = targetMap.get(hunter.getUUID());
-        if (targetUUID == null) return null;
-        if (hunter.getServer() == null) return null;
-        return hunter.getServer().getPlayerList().getPlayer(targetUUID);
+    public static ServerPlayer getTarget() {
+        if (targets == null) return null;
+        return targets;
     }
 
     // 清除追殺目標
-    public static void clearTarget(ServerPlayer hunter) {
-        if (hunter == null) return;
-        UUID targetUUID = targetMap.remove(hunter.getUUID());
-        if (targetUUID != null && hunter.getServer() != null) {
-            ServerPlayer target = hunter.getServer().getPlayerList().getPlayer(targetUUID);
-            if (target != null) clearRedName(target);
+    public static void clearTarget() {
+        if (targets != null) {
+            ServerPlayer target = null;
         }
     }
 
-    // 是否有設定追殺目標
-    public static boolean hasTarget(ServerPlayer hunter) {
-        if (hunter == null) return false;
-        return targetMap.containsKey(hunter.getUUID());
-    }
 
     // 找出X,Z座標上最高的安全Y高度
     public static int findSafeY(Level level, int x, int z) {

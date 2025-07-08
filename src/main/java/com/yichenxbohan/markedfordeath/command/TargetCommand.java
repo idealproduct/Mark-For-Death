@@ -64,12 +64,11 @@ public class TargetCommand {
 
                                     if (target != null) {
                                         // 移除隊伍與紅色ID
-                                        TargetUtils.clearRedName(target);
-
                                         context.getSource().sendSuccess(Component.literal(" 已取消對 " + playerName + " 的追殺！"), true);
                                         target.sendSystemMessage(Component.literal(" 你不再是追殺目標了，暫時安全..."));
-                                        TargetUtils.markPlayerWithRedName(target);
                                         TargetUtils.teleportNearPlayer(context.getSource().getPlayerOrException(), target, 500);
+                                        TargetUtils.clearRedName(target);
+                                        TargetUtils.clearTarget();
                                     } else {
                                         context.getSource().sendFailure(Component.literal("❌ 找不到玩家：" + playerName));
                                     }
