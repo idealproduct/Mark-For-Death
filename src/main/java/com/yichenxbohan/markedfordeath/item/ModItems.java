@@ -1,6 +1,7 @@
 package com.yichenxbohan.markedfordeath.item;
 
 import com.yichenxbohan.markedfordeath.markedfordeath;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
@@ -25,6 +26,17 @@ public class ModItems {
     public static final RegistryObject<Item> SOUL_DEVOURER = ITEMS.register("soul_devourer",
             () -> new SoulDevourerItem(Tiers.IRON, 4, -2.4F, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
 
+    public static final RegistryObject<Item> SOUL_HELMET =
+            ITEMS.register("soul_helmet", () -> new SoulArmorItem(ModArmorMaterial.SOUL, EquipmentSlot.HEAD, new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT).durability(9999)));
+
+    public static final RegistryObject<Item> SOUL_CHESTPLATE =
+            ITEMS.register("soul_chestplate", () -> new SoulArmorItem(ModArmorMaterial.SOUL, EquipmentSlot.CHEST, new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT).durability(9999)));
+
+    public static final RegistryObject<Item> SOUL_LEGGINGS =
+            ITEMS.register("soul_leggings", () -> new SoulArmorItem(ModArmorMaterial.SOUL, EquipmentSlot.LEGS, new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT).durability(9999)));
+
+    public static final RegistryObject<Item> SOUL_BOOTS =
+            ITEMS.register("soul_boots", () -> new SoulArmorItem(ModArmorMaterial.SOUL, EquipmentSlot.FEET, new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT).durability(9999)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

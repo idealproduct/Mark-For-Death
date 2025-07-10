@@ -8,6 +8,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -37,15 +38,19 @@ public class SoulDevourerItem extends SwordItem {
                 serverLevel.sendParticles(ParticleTypes.SONIC_BOOM, pos.x, pos.y, pos.z, 1, 0, 0, 0, 0);
             }
 
-            // 前方造成傷害
+            // 前方造成傷害，並重設無敵幀
             double range = 10.0;
             serverLevel.getEntities(player, player.getBoundingBox().expandTowards(look.scale(range)).inflate(1.0),
-                    e -> !e.is(player)).forEach(e -> {
+                    e -> !e.is(player) && e instanceof LivingEntity).forEach(e -> {
                 e.hurt(DamageSource.playerAttack(player), 15.0F);
+
+                // 💥 無視無敵幀：重設 invulnerableTime
+                ((LivingEntity) e).invulnerableTime = 0;
             });
         }
 
-        player.getCooldowns().addCooldown(this, 0);
+        player.getCooldowns().addCooldown(this, 0); // 你這裡是0，真的要變成無限可用？還是要設個冷卻？
+
         return InteractionResultHolder.success(stack);
     }
 
