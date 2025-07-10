@@ -38,7 +38,6 @@ public class TrackingEyeEntity extends EyeOfEnder {
         super.baseTick();
 
         if (!level.isClientSide) {
-            if(tickCount == 1){
                 owner = getOwnerPlayer();
                 target = TargetUtils.getTarget();
                 if (owner == null||target==null) {
@@ -49,20 +48,20 @@ public class TrackingEyeEntity extends EyeOfEnder {
                 //targetPos = new Vec3(0,60,0);
                 currentPos = this.position();
                 direction = targetPos.subtract(currentPos).normalize();
-                double speed = 0.4;
+                double speed = 0.1;
                 velocity = direction.scale(speed);
-            }
+
 
 
             // 更新移動向量
-            owner.sendSystemMessage(Component.literal(velocity.toString()));
+           // owner.sendSystemMessage(Component.literal(velocity.toString()));
 
             this.setDeltaMovement(velocity);
             this.move(MoverType.SELF, this.getDeltaMovement());
 
 
         }
-        if(tickCount > 40){
+        if(tickCount > 120){
             this.discard();
         }
     }

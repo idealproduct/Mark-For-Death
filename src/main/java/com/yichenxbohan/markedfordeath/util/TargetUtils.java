@@ -44,8 +44,8 @@ public class TargetUtils {
     }
 
     // 設定追殺目標
-    public static void setTarget(ServerPlayer hunter, ServerPlayer target) {
-        if (hunter == null || target == null) return;
+    public static void setTarget(ServerPlayer target) {
+        if (target == null) return;
         targets = target;
         markPlayerWithRedName(target);
     }
@@ -59,7 +59,7 @@ public class TargetUtils {
     // 清除追殺目標
     public static void clearTarget() {
         if (targets != null) {
-            ServerPlayer target = null;
+            targets = null;
         }
     }
 

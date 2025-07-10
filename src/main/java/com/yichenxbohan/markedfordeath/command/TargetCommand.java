@@ -27,7 +27,7 @@ public class TargetCommand {
                                 context.getSource().sendSuccess(Component.literal("☠ 已指定 " + playerName + " 為目標！"), true);
                                 target.sendSystemMessage(Component.literal("⚠ 你已被指定為追殺目標！"));
                                 TargetUtils.markPlayerWithRedName(target);
-                                TargetUtils.markPlayerWithRedName(target);
+                                TargetUtils.setTarget(target);
                                 TargetUtils.teleportNearPlayer(context.getSource().getPlayerOrException(), target, 500);
                             } else {
                                 context.getSource().sendFailure(Component.literal("❌ 找不到玩家：" + playerName));
@@ -51,6 +51,7 @@ public class TargetCommand {
                             context.getSource().sendSuccess(Component.literal("☠ 隨機目標是：" + chosen.getName().getString()), true);
                             chosen.sendSystemMessage(Component.literal("⚠ 你已被隨機選為追殺目標！"));
                             TargetUtils.markPlayerWithRedName(chosen);
+                            TargetUtils.setTarget(chosen);
                             TargetUtils.teleportNearPlayer(context.getSource().getPlayerOrException(), chosen, 500);
 
                             return 1;
