@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 
 
 public class BulletEntity extends AbstractHurtingProjectile {
@@ -20,6 +21,9 @@ public class BulletEntity extends AbstractHurtingProjectile {
         super(ModEntities.BULLET.get(), shooter, shooter.getX(), shooter.getEyeY(), shooter.getZ(), level);
     }
 
+    protected float getGravity() {
+        return 0.0f;  // 取消重力
+    }
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
@@ -28,6 +32,15 @@ public class BulletEntity extends AbstractHurtingProjectile {
         this.discard(); // 擊中就消失
     }
 
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        // 固定速度方向與速度
+        Vec3 velocity = this.getDeltaMovement();
+        this.setDeltaMovement(velocity.normalize().scale(3.0));
+    }
     @Override
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
