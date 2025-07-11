@@ -38,6 +38,9 @@ public class ModItems {
     public static final RegistryObject<Item> SOUL_BOOTS =
             ITEMS.register("soul_boots", () -> new SoulArmorItem(ModArmorMaterial.SOUL, EquipmentSlot.FEET, new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT).durability(9999)));
 
+    public static final RegistryObject<Item> GUN = ITEMS.register("gun",
+            () -> new GunItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

@@ -9,6 +9,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import static net.minecraftforge.registries.ForgeRegistries.Keys.ENTITY_TYPES;
+
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, markedfordeath.MODID);
@@ -21,6 +23,13 @@ public class ModEntities {
                     .updateInterval(10)
                     .build("tracking_eye")
     );
+
+    public static final RegistryObject<EntityType<BulletEntity>> BULLET = ENTITIES.register("bullet",
+            () -> EntityType.Builder.<BulletEntity>of(BulletEntity::new, MobCategory.MISC)
+                    .sized(0.25F, 0.25F) // 子彈大小
+                    .clientTrackingRange(64)
+                    .updateInterval(1)
+                    .build("bullet"));
 
     public static void register(IEventBus bus) {
         ENTITIES.register(bus);
