@@ -18,7 +18,8 @@ public class GunItem extends Item {
         ItemStack itemStack = player.getItemInHand(hand);
         if (!level.isClientSide) {
             BulletEntity bullet = new BulletEntity(level, player);
-            bullet.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3.0F, 1.0F);
+            bullet.setPos(player.getX(), player.getEyeY(), player.getZ());
+            bullet.shootFromRotation(player, player.getXRot(), player.getYRot()+2, 10.0F, 2.5F, 0.0F);
             level.addFreshEntity(bullet);
         }
         player.getCooldowns().addCooldown(this, 20); // 冷卻 1 秒

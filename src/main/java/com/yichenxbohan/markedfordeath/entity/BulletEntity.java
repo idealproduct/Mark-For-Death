@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 
 
 public class BulletEntity extends AbstractHurtingProjectile {
@@ -17,7 +18,13 @@ public class BulletEntity extends AbstractHurtingProjectile {
     }
 
     public BulletEntity(Level level, LivingEntity shooter) {
-        super(ModEntities.BULLET.get(), shooter, shooter.getX(), shooter.getEyeY(), shooter.getZ(), level);
+        super(ModEntities.BULLET.get(), shooter, 0, 0, 0, level);
+        this.setDeltaMovement(new Vec3(0,0,0));
+    }
+
+
+    protected float getGravity() {
+        return 0.0f;  // 取消重力
     }
 
     @Override
