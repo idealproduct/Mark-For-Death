@@ -18,12 +18,16 @@ public class BulletEntity extends AbstractHurtingProjectile {
     }
 
     public BulletEntity(Level level, LivingEntity shooter) {
-        super(ModEntities.BULLET.get(), shooter, shooter.getX(), shooter.getEyeY(), shooter.getZ(), level);
+        super(ModEntities.BULLET.get(), shooter, 0, 0, 0, level);
+        this.setDeltaMovement(new Vec3(0,0,0));
     }
 
-    protected float getGravity() {
-        return 0.0f;  // 取消重力
+
+    @Override
+    public boolean isNoGravity() {
+        return true;
     }
+
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
@@ -33,14 +37,6 @@ public class BulletEntity extends AbstractHurtingProjectile {
     }
 
 
-    @Override
-    public void tick() {
-        super.tick();
-
-        // 固定速度方向與速度
-        Vec3 velocity = this.getDeltaMovement();
-        this.setDeltaMovement(velocity.normalize().scale(3.0));
-    }
     @Override
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
