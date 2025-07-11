@@ -23,8 +23,9 @@ public class BulletEntity extends AbstractHurtingProjectile {
     }
 
 
-    protected float getGravity() {
-        return 0.0f;  // 取消重力
+    @Override
+    public boolean isNoGravity() {
+        return true;
     }
 
     @Override
@@ -34,6 +35,7 @@ public class BulletEntity extends AbstractHurtingProjectile {
         target.hurt(DamageSource.thrown(this, this.getOwner()), 6.0F); // 傷害
         this.discard(); // 擊中就消失
     }
+
 
     @Override
     protected void onHitBlock(BlockHitResult result) {
