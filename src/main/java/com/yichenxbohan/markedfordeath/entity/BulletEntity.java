@@ -24,6 +24,12 @@ public class BulletEntity extends AbstractHurtingProjectile {
 
 
     @Override
+    public void tick() {
+        super.tick(); // 一定要有這行才能維持正常移動
+        if(tickCount > 60)this.discard();
+    }
+
+    @Override
     public boolean isNoGravity() {
         return true;
     }

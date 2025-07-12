@@ -8,6 +8,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -29,6 +31,8 @@ public class SoulDevourerItem extends SwordItem {
             // 播放音效
             serverLevel.playSound(null, player.blockPosition(), SoundEvents.TRIDENT_THUNDER, SoundSource.PLAYERS, 2.0F, 2.0F);
 
+            player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 2));
+            player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100, 1));
             // 粒子與攻擊
             Vec3 start = player.position().add(0, player.getEyeHeight(), 0);
             Vec3 look = player.getLookAngle().normalize();
@@ -42,7 +46,7 @@ public class SoulDevourerItem extends SwordItem {
             double range = 10.0;
             serverLevel.getEntities(player, player.getBoundingBox().expandTowards(look.scale(range)).inflate(1.0),
                     e -> !e.is(player) && e instanceof LivingEntity).forEach(e -> {
-                e.hurt(DamageSource.playerAttack(player), 15.0F);
+                e.hurt(DamageSource.OUT_OF_WORLD, 15.0F);
 
                 // 💥 無視無敵幀：重設 invulnerableTime
                 ((LivingEntity) e).invulnerableTime = 0;
