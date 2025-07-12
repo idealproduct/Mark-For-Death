@@ -41,6 +41,9 @@ public class ModItems {
     public static final RegistryObject<Item> GUN = ITEMS.register("gun",
             () -> new GunItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
 
+    public static final RegistryObject<Item> AMMO = ITEMS.register("ammo",
+            () -> new Item(new Item.Properties().stacksTo(100).tab(CreativeModeTab.TAB_MISC)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

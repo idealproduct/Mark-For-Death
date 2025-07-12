@@ -24,26 +24,39 @@ public class GunItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if (!level.isClientSide()) {
-            ServerLevel serverLevel = (ServerLevel) level;
-            BulletEntity bullet = new BulletEntity(level, player);
-            bullet.setPos(player.getX(), player.getEyeY(), player.getZ());
-            //bullet.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 0.0F);
-            bullet.shoot(player.getLookAngle().x, player.getLookAngle().y, player.getLookAngle().z, 3, 0.5f);
-            level.addFreshEntity(bullet);
-            Vec3 start = player.position().add(0, player.getEyeHeight(), 0);
-            Vec3 look = player.getLookAngle().normalize();
-            for (double i = 1; i <= 20; i+=0.25) {
-                Vec3 pos = start.add(look.scale(i * 0.5));
-                serverLevel.sendParticles(ParticleTypes.FLAME, pos.x, pos.y, pos.z, 1, 0, 0, 0, 0);
+
+            if (player.getInventory().contains(new ItemStack(ModItems.AMMO.get()))) {
+                // 找到子彈，消耗
+                for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+                    ItemStack stack = player.getInventory().getItem(i);
+                    if (stack.getItem() == ModItems.AMMO.get()) {
+                        stack.shrink(1);
+                        break;
+                    }
+                }
+                ServerLevel serverLevel = (ServerLevel) level;
+                BulletEntity bullet = new BulletEntity(level, player);
+                bullet.setPos(player.getX(), player.getEyeY(), player.getZ());
+                //bullet.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 0.0F);
+                bullet.shoot(player.getLookAngle().x, player.getLookAngle().y, player.getLookAngle().z, 3, 0.5f);
+                level.addFreshEntity(bullet);
+                Vec3 start = player.position().add(0, player.getEyeHeight(), 0);
+                Vec3 look = player.getLookAngle().normalize();
+                for (double i = 1; i <= 20; i+=0.25) {
+                    Vec3 pos = start.add(look.scale(i * 0.5));
+                    serverLevel.sendParticles(ParticleTypes.FLAME, pos.x, pos.y, pos.z, 1, 0, 0, 0, 0);
+                }
+
+                double range = 100.0;
+                serverLevel.getEntities(player, player.getBoundingBox().expandTowards(look.scale(range)).inflate(1.0),
+                        e -> !e.is(player) && e instanceof LivingEntity).forEach(e -> {
+                    // 💥 無視無敵幀：重設 invulnerableTime
+                    ((LivingEntity) e).invulnerableTime = 0;
+                });
+                serverLevel.playSound(null, player.blockPosition(), SoundEvents.WARDEN_DEATH, SoundSource.PLAYERS, 1.0F, 1.0F);
             }
 
-            double range = 100.0;
-            serverLevel.getEntities(player, player.getBoundingBox().expandTowards(look.scale(range)).inflate(1.0),
-                    e -> !e.is(player) && e instanceof LivingEntity).forEach(e -> {
-                // 💥 無視無敵幀：重設 invulnerableTime
-                ((LivingEntity) e).invulnerableTime = 0;
-            });
-            serverLevel.playSound(null, player.blockPosition(), SoundEvents.WARDEN_DEATH, SoundSource.PLAYERS, 1.0F, 1.0F);
+
         }
         player.getCooldowns().addCooldown(this, 10); // 冷卻 1 秒
         return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide());
