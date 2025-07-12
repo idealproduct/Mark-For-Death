@@ -31,6 +31,7 @@ public class SoulDevourerItem extends SwordItem {
             // 播放音效
             serverLevel.playSound(null, player.blockPosition(), SoundEvents.TRIDENT_THUNDER, SoundSource.PLAYERS, 2.0F, 2.0F);
 
+            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 5, 9));
             player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 2));
             player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100, 1));
             // 粒子與攻擊

@@ -24,6 +24,7 @@ public class GunItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if (!level.isClientSide()) {
+            ServerLevel serverLevel = (ServerLevel) level;
 
             if (player.getInventory().contains(new ItemStack(ModItems.AMMO.get()))) {
                 // 找到子彈，消耗
@@ -34,7 +35,6 @@ public class GunItem extends Item {
                         break;
                     }
                 }
-                ServerLevel serverLevel = (ServerLevel) level;
                 BulletEntity bullet = new BulletEntity(level, player);
                 bullet.setPos(player.getX(), player.getEyeY(), player.getZ());
                 //bullet.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 0.0F);
@@ -45,6 +45,7 @@ public class GunItem extends Item {
                 for (double i = 1; i <= 20; i+=0.25) {
                     Vec3 pos = start.add(look.scale(i * 0.5));
                     serverLevel.sendParticles(ParticleTypes.FLAME, pos.x, pos.y, pos.z, 1, 0, 0, 0, 0);
+                    serverLevel.sendParticles(ParticleTypes.SONIC_BOOM, pos.x, pos.y, pos.z, 1, 0, 0, 0, 0);
                 }
 
                 double range = 100.0;
@@ -54,6 +55,9 @@ public class GunItem extends Item {
                     ((LivingEntity) e).invulnerableTime = 0;
                 });
                 serverLevel.playSound(null, player.blockPosition(), SoundEvents.WARDEN_DEATH, SoundSource.PLAYERS, 1.0F, 1.0F);
+            }
+            else{
+                serverLevel.playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.5f, 1.5f);
             }
 
 
