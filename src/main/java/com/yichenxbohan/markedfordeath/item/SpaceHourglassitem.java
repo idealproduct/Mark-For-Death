@@ -20,6 +20,10 @@ public class SpaceHourglassitem extends Item {
 
         if (!level.isClientSide && player instanceof ServerPlayer serverplayer && level instanceof ServerLevel serverlevel) {
             SlowNearbyPlayersEvent.applySlownessNearby(serverlevel, serverplayer, serverplayer.blockPosition(), 20);
+
+            if (!player.getAbilities().instabuild) {
+                stack.shrink(1);
+            }
         }
         player.getCooldowns().addCooldown(this, 1200);
         return InteractionResultHolder.success(stack);

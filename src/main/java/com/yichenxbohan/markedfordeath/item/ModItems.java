@@ -53,6 +53,9 @@ public class ModItems {
     public static final RegistryObject<Item> BEDROCK_WALL = ITEMS.register("bedrock_wall",
             () -> new BedrockWallItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC)));
 
+    public static final RegistryObject<Item> SPACE_HOURGLASS = ITEMS.register("space_hourglass",
+            () -> new SpaceHourglassitem(new Item.Properties().stacksTo(16).tab(CreativeModeTab.TAB_MISC)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }
