@@ -41,7 +41,7 @@ public class BedrockWallItem extends Item {
                 for (int x = -5; x <= 5; x++) {
                     BlockPos pos = origin.relative(player.getDirection().getClockWise(), x).above(y+2);
                     placedBlocks.add(Pair.of(pos, level.getBlockState(pos).getBlock()));
-                    level.setBlock(pos, Blocks.BEDROCK.defaultBlockState(), 3);
+                    level.setBlock(pos, Blocks.BARRIER.defaultBlockState(), 3);
                 }
             }
             player.getCooldowns().addCooldown(this, 20*60);

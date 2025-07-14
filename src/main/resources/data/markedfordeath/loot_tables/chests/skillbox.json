@@ -3,8 +3,8 @@
   "pools": [
     {
       "rolls": {
-        "min": 2,
-        "max": 7
+        "min": 4,
+        "max": 12
       },
       "entries": [
         {
@@ -27,14 +27,26 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:beetroot_seeds",
-          "weight": 30,
+          "name": "minecraft:iron_ingot",
+          "weight": 20,
           "quality": 0
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:frogspawn",
-          "weight": 30,
+          "name": "minecraft:rotten_flesh",
+          "weight": 25,
+          "quality": 0
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:grass",
+          "weight": 20,
+          "quality": 0
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:bone",
+          "weight": 20,
           "quality": 0
         },
         {
@@ -48,6 +60,18 @@
               "chance": 0.5
             }
           ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond",
+          "weight": 1,
+          "quality": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:gold_ingot",
+          "weight": 1,
+          "quality": 2
         },
         {
           "type": "minecraft:item",

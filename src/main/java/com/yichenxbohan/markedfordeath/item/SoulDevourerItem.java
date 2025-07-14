@@ -1,7 +1,10 @@
 package com.yichenxbohan.markedfordeath.item;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -16,10 +19,49 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Random;
+
 public class SoulDevourerItem extends SwordItem {
     public SoulDevourerItem(Tiers tier, int attackDamageModifier, float attackSpeedModifier, Properties properties) {
         super(tier, attackDamageModifier, attackSpeedModifier, properties);
     }
+    @Override
+    public MutableComponent getName(ItemStack stack) {
+        // 色彩樣本
+        ChatFormatting[] styles = {
+                ChatFormatting.DARK_RED,
+                ChatFormatting.RED,
+                ChatFormatting.GOLD,
+                ChatFormatting.YELLOW,
+                ChatFormatting.DARK_GREEN,
+                ChatFormatting.GREEN,
+                ChatFormatting.AQUA,
+                ChatFormatting.BLUE,
+                ChatFormatting.LIGHT_PURPLE,
+                ChatFormatting.DARK_PURPLE,
+                ChatFormatting.GRAY,
+                ChatFormatting.WHITE
+        };
+
+        // 控制頻率的重點：tick 數除以速度
+        long ticks = System.currentTimeMillis() / 200; // ← 每200ms切一次（頻率=5次/秒）
+        ChatFormatting color = styles[(int)(ticks % styles.length)];
+
+        // 加個炫炮樣式（可自調）
+        boolean bold = true;
+        boolean italic = false;
+        boolean obf = false;
+
+        MutableComponent name = Component.translatable(this.getDescriptionId());
+        name.withStyle(color);
+        if (bold) name.withStyle(ChatFormatting.BOLD);
+        if (italic) name.withStyle(ChatFormatting.ITALIC);
+        if (obf) name.withStyle(ChatFormatting.OBFUSCATED);
+
+        return name;
+    }
+
+
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
