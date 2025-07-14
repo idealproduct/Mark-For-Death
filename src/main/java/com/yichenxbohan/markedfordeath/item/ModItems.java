@@ -50,7 +50,7 @@ public class ModItems {
     public static final RegistryObject<Item> FLASH_EYE = ITEMS.register("flash_eye",
             () -> new FlashEyesItem(new Item.Properties().stacksTo(16).tab(CreativeModeTab.TAB_COMBAT)));
 
-    public static final RegistryObject<Item> BEDROCK_WALL = ITEMS.register("bedrock_wall",
+        public static final RegistryObject<Item> BEDROCK_WALL = ITEMS.register("bedrock_wall",
             () -> new BedrockWallItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC)));
 
     public static final RegistryObject<Item> SPACE_HOURGLASS = ITEMS.register("space_hourglass",
