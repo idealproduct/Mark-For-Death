@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -41,6 +42,20 @@ public class Clickchest {
             event.setCanceled(true);
 
             player.sendSystemMessage(Component.literal("你還沒清光怪物！"));
+        }
+    }
+    @SubscribeEvent
+    public static void onBlockBreak(BlockEvent.BreakEvent event) {
+        Level level = (Level) event.getLevel();
+        BlockPos pos = event.getPos();
+
+        if (level.getBlockEntity(pos) instanceof ChestBlockEntity chest) {
+            if (chest.hasCustomName() && chest.getCustomName().getString().equals("關卡獎勵箱")) {
+                if (!event.getPlayer().isCreative()) {
+                    event.setCanceled(true);
+                    event.getPlayer().sendSystemMessage(Component.literal("別想偷拆關卡箱！"));
+                }
+            }
         }
     }
 
