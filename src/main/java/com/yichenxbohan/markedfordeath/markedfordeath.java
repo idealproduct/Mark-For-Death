@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.yichenxbohan.markedfordeath.command.SpawnCommand;
 import com.yichenxbohan.markedfordeath.command.TargetCommand;
 import com.yichenxbohan.markedfordeath.entity.ModEntities;
+import com.yichenxbohan.markedfordeath.event.Clickchest;
 import com.yichenxbohan.markedfordeath.event.WeaponQualityApplier;
 import com.yichenxbohan.markedfordeath.item.ModItems;
 import net.minecraft.client.Minecraft;

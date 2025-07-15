@@ -4,46 +4,43 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 
+@Mod.EventBusSubscriber(modid = "markedfordeath", bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class Clickchest {
     @SubscribeEvent
-    public static void onChestOpen(PlayerInteractEvent.RightClickBlock event) {
+    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         Level level = event.getLevel();
+        Player player = event.getEntity();
         BlockPos pos = event.getPos();
 
-        if (level.getBlockEntity(pos) instanceof ChestBlockEntity chest) {
-            // 檢查是不是你的特殊箱子
-            if (chest.hasCustomName() && chest.getCustomName().getString().equals("關卡獎勵箱")) {
+        // 伺服器端才處理
+        if (!(level instanceof ServerLevel serverLevel)) return;
 
-                // 檢查周圍是否有怪物
-                AABB range = new AABB(
-                        pos.getX() - 10, pos.getY(), pos.getZ() - 10,
-                        pos.getX() + 11, pos.getY() + 1, pos.getZ() + 11
-                );
-                List<Monster> mobs = level.getEntitiesOfClass(Monster.class, range);
+        if (!(level.getBlockEntity(pos) instanceof ChestBlockEntity chest)) return;
+        if (!chest.hasCustomName() || !chest.getCustomName().getString().equals("關卡獎勵箱")) return;
 
-                double x = pos.getX() + 0.5;
-                double y = pos.getY() + 0.5;
-                double z = pos.getZ() + 0.5;
+        // 怪物範圍偵測
+        AABB range = new AABB(pos.offset(-10, -5, -10), pos.offset(11, 6, 11));
+        List<Monster> mobs = serverLevel.getEntitiesOfClass(Monster.class, range);
 
-                if (!mobs.isEmpty()) {
-                    // 有怪物，取消開箱
-                    if (level instanceof ServerLevel serverLevel) {
-                        level.getNearestPlayer(x,y,z, 20,true).sendSystemMessage(Component.literal("你還沒清光怪物！"));
-                    }
-                    event.setCanceled(true);
-                }
+        if (!mobs.isEmpty()) {
+            // 把 client-side 的 GUI 關掉（靠 cancel 是不夠的）
+            event.setUseBlock(net.minecraftforge.eventbus.api.Event.Result.DENY);
+            event.setCanceled(true);
 
-
-            }
+            player.sendSystemMessage(Component.literal("你還沒清光怪物！"));
         }
     }
 
