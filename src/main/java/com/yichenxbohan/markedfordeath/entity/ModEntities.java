@@ -1,5 +1,6 @@
 package com.yichenxbohan.markedfordeath.entity;
 
+import com.yichenxbohan.markedfordeath.entity.boss.TowerGuardianEntity;
 import com.yichenxbohan.markedfordeath.markedfordeath;
 import com.yichenxbohan.markedfordeath.entity.TrackingEyeEntity;
 import net.minecraft.world.entity.EntityType;
@@ -30,6 +31,20 @@ public class ModEntities {
                     .clientTrackingRange(64)
                     .updateInterval(1)
                     .build("bullet"));
+
+    public static final RegistryObject<EntityType<TowerGuardianEntity>> TOWER_GUARDIAN =
+            ENTITIES.register("tower_guardian", () ->
+                    EntityType.Builder.<TowerGuardianEntity>of(TowerGuardianEntity::new, MobCategory.MONSTER)
+                            .sized(0.6F, 1.8F) // 玩家大小
+                            .build("tower_guardian"));
+
+    public static final RegistryObject<EntityType<MeteorEntity>> METEOR =
+            ENTITIES.register("meteor", () ->
+                    EntityType.Builder.<MeteorEntity>of(MeteorEntity::new, MobCategory.MISC)
+                            .sized(200.0F, 200.0F)
+                            .fireImmune()
+                            .build("meteor"));
+
 
     public static void register(IEventBus bus) {
         ENTITIES.register(bus);
