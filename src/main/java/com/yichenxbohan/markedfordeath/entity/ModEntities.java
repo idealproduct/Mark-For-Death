@@ -41,7 +41,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<MeteorEntity>> METEOR =
             ENTITIES.register("meteor", () ->
                     EntityType.Builder.<MeteorEntity>of(MeteorEntity::new, MobCategory.MISC)
-                            .sized(10.0F, 10.0F)
+                            .sized(50.0F, 50.0F)
                             .fireImmune()
                             .build("meteor"));
 

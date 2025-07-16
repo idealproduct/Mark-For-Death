@@ -41,6 +41,7 @@ public class ClientEventHandler {
         event.registerEntityRenderer(ModEntities.TOWER_GUARDIAN.get(),
                 ctx -> new HumanoidMobRenderer<>(ctx, new PlayerModel<>(ctx.bakeLayer(ModelLayers.PLAYER), false), 0.5f));
         event.registerEntityRenderer(ModEntities.METEOR.get(), MeteorRenderer::new);
+
     }
 
 

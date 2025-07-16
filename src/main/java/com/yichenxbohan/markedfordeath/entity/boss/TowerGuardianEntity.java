@@ -1,5 +1,6 @@
 package com.yichenxbohan.markedfordeath.entity.boss;
 
+import com.yichenxbohan.markedfordeath.entity.MeteorEntity;
 import com.yichenxbohan.markedfordeath.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -144,9 +145,8 @@ public class TowerGuardianEntity extends Monster {
             double z = this.getZ() + random.nextInt(15) - 7;
             double y = this.getY() + 20 + random.nextInt(10);
 
-            // TODO: 這裡你要實作 MeteorEntity
-            // MeteorEntity meteor = new MeteorEntity(level, x, y, z);
-            // serverLevel.addFreshEntity(meteor);
+            MeteorEntity meteor = new MeteorEntity(serverLevel, x, y, z);
+            serverLevel.addFreshEntity(meteor);
         }
     }
 
