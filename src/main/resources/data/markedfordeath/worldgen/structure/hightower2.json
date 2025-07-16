@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:jigsaw",
+  "biomes": "#markedfordeath:has_structure/skyisland",
+  "step": "surface_structures",
+  "terrain_adaptation": "none",
+  "spawn_overrides": {},
+  "start_pool": "markedfordeath:hightower2/start_pool",
+  "size": 1,
+  "start_height": {
+    "absolute": 48
+  },
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "max_distance_from_center": 1,
+  "use_expansion_hack": false
+}

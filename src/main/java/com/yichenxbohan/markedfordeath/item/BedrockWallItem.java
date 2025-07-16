@@ -8,8 +8,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -40,6 +39,7 @@ public class BedrockWallItem extends Item {
             for (int y = -5; y < 5; y++) {
                 for (int x = -5; x <= 5; x++) {
                     BlockPos pos = origin.relative(player.getDirection().getClockWise(), x).above(y+2);
+                    if(level.getBlockState(pos).getBlock() instanceof ChestBlock || level.getBlockState(pos).getBlock() instanceof ShulkerBoxBlock|| level.getBlockState(pos).getBlock() instanceof TrappedChestBlock)continue;
                     placedBlocks.add(Pair.of(pos, level.getBlockState(pos).getBlock()));
                     level.setBlock(pos, Blocks.BARRIER.defaultBlockState(), 3);
                 }
