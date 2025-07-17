@@ -68,7 +68,7 @@ public class TowerGuardianEntity extends Monster {
         if (players.isEmpty()) return;
 
         // 高頻雷射（每 0.25 秒）
-       /* if (laserCooldown-- <= 0) {
+        if (laserCooldown-- <= 0) {
             for (Player p : players) {
                 shootLaserAt(p);
             }
@@ -85,7 +85,7 @@ public class TowerGuardianEntity extends Monster {
         if (soundWaveCooldown-- <= 0) {
             soundWaveAttack();
             soundWaveCooldown = 400;
-        }*/
+        }
 
         // 隕石轉階段（血量過半）
         if (this.getHealth() < this.getMaxHealth() / 2 && phase == 1) {
