@@ -5,6 +5,7 @@ import com.yichenxbohan.markedfordeath.item.ModelSoulArmor;
 import com.yichenxbohan.markedfordeath.markedfordeath;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 
@@ -35,11 +36,11 @@ public class ClientEventHandler {
                 ModelSoulArmor.LAYER_LOCATION,
                 ModelSoulArmor::createBodyLayer
         );
+        event.registerLayerDefinition(meteor.LAYER_LOCATION, meteor::createBodyLayer);
     }
     @SubscribeEvent
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntities.TOWER_GUARDIAN.get(),
-                ctx -> new HumanoidMobRenderer<>(ctx, new PlayerModel<>(ctx.bakeLayer(ModelLayers.PLAYER), false), 0.5f));
+        EntityRenderers.register(ModEntities.TOWER_GUARDIAN.get(), TowerGuardianRenderer::new);
         event.registerEntityRenderer(ModEntities.METEOR.get(), MeteorRenderer::new);
 
     }

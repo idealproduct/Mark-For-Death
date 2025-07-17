@@ -4,9 +4,11 @@ import com.yichenxbohan.markedfordeath.entity.MeteorEntity;
 import com.yichenxbohan.markedfordeath.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -65,12 +67,12 @@ public class TowerGuardianEntity extends Monster {
         List<Player> players = this.level.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(32));
         if (players.isEmpty()) return;
 
-        // 高頻雷射（每 1 秒）
-        if (laserCooldown-- <= 0) {
+        // 高頻雷射（每 0.25 秒）
+       /* if (laserCooldown-- <= 0) {
             for (Player p : players) {
                 shootLaserAt(p);
             }
-            laserCooldown = 20;
+            laserCooldown = 5;
         }
 
         // 召喚殭屍與骷髏（每 10 秒）
@@ -83,7 +85,7 @@ public class TowerGuardianEntity extends Monster {
         if (soundWaveCooldown-- <= 0) {
             soundWaveAttack();
             soundWaveCooldown = 400;
-        }
+        }*/
 
         // 隕石轉階段（血量過半）
         if (this.getHealth() < this.getMaxHealth() / 2 && phase == 1) {
@@ -93,7 +95,7 @@ public class TowerGuardianEntity extends Monster {
 
         if (phase == 2 && meteorCooldown-- <= 0) {
             summonMeteorShower();
-            meteorCooldown = 300;
+            meteorCooldown = 200;
         }
     }
 
@@ -143,8 +145,9 @@ public class TowerGuardianEntity extends Monster {
         for (int i = 0; i < 5; i++) {
             double x = this.getX() + random.nextInt(15) - 7;
             double z = this.getZ() + random.nextInt(15) - 7;
-            double y = this.getY() + 20 + random.nextInt(10);
+            double y = this.getY() + 170;
 
+            this.level.playSound(null, this.blockPosition(), new SoundEvent(new ResourceLocation("markedfordeath", "meteorfall")), SoundSource.HOSTILE, 10.0F, 0.8F);
             MeteorEntity meteor = new MeteorEntity(serverLevel, x, y, z);
             serverLevel.addFreshEntity(meteor);
         }

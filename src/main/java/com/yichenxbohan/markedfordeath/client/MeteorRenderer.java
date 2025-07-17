@@ -1,60 +1,47 @@
 package com.yichenxbohan.markedfordeath.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
-import net.minecraft.client.Minecraft;
+import com.yichenxbohan.markedfordeath.entity.MeteorEntity;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.ItemStack;
 
-public class MeteorRenderer extends EntityRenderer<Entity> {
+public class MeteorRenderer extends EntityRenderer<MeteorEntity> {
+    private final EntityModel<MeteorEntity> model;
 
-    private final ItemRenderer itemRenderer;
-    private final ItemStack itemStack;
+    public static final ModelLayerLocation LAYER_LOCATION =
+            new ModelLayerLocation(new ResourceLocation("markedfordeath", "meteor"), "main");
 
     public MeteorRenderer(EntityRendererProvider.Context context) {
         super(context);
-        this.itemRenderer = Minecraft.getInstance().getItemRenderer();
-        // 請換成你自己註冊的TrackingEye物品
-        this.itemStack = new ItemStack(com.yichenxbohan.markedfordeath.item.ModItems.METEOR.get());
+        this.model = new meteor<>(context.bakeLayer(LAYER_LOCATION));
     }
 
     @Override
-    public void render(Entity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        poseStack.pushPose();
-
-        // 飄浮動畫：上下微動
-        /*float time = entity.tickCount + partialTicks;
-        float floatOffset = (float) Math.sin(time * 0.1f) * 0.1f;
-        poseStack.translate(0.0D, floatOffset, 0.0D);*/
-
-        // 旋轉動畫
-        poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
-        poseStack.mulPose(Vector3f.YP.rotationDegrees(180.0F));
-
-        // 縮放大小
-        float scale = 50.0f;
-        poseStack.scale(scale, scale, scale);
-
-        // 用ItemRenderer渲染物品
-        itemRenderer.renderStatic(itemStack, ItemTransforms.TransformType.NONE, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, entity.getId());
-
-
-
-        poseStack.popPose();
-
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+    public ResourceLocation getTextureLocation(MeteorEntity entity) {
+        return new ResourceLocation("markedfordeath", "textures/entity/meteor.png");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Entity entity) {
-        // 用ItemRenderer渲染物品，這裡返回null即可
-        return null;
+    public void render(MeteorEntity entity, float yaw, float partialTicks,
+                       PoseStack matrixStack, MultiBufferSource buffer, int packedLight) {
+
+
+        matrixStack.pushPose();
+        // 這裡調整大小，3D模型會放大或縮小
+        float scale = 35.0F;  // 2倍大
+        matrixStack.scale(scale, scale, scale);
+
+        model.renderToBuffer(matrixStack,
+                buffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity))),
+                packedLight, OverlayTexture.NO_OVERLAY,
+                1f, 1f, 1f, 1f);
+        matrixStack.popPose();
+        super.render(entity, yaw, partialTicks, matrixStack, buffer, packedLight);
     }
 }

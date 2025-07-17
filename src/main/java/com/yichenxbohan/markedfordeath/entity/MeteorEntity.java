@@ -1,5 +1,6 @@
 package com.yichenxbohan.markedfordeath.entity;
 
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -34,6 +35,20 @@ public class MeteorEntity extends Entity {
         super.tick();
 
         if (this.level.isClientSide) return;
+
+        if (this.level instanceof ServerLevel serverLevel) {
+            double x = this.getX();
+            double y = this.getY() - 50;  // 向下偏移 0.5 格
+            double z = this.getZ();
+
+            serverLevel.sendParticles(
+                    ParticleTypes.FLAME,           // 火焰粒子
+                    x, y, z, // 中心座標（可再加偏移）
+                    150,                             // 粒子數量
+                    10, 10, 10, // X、Y、Z 偏移範圍（生成範圍）
+                    0.02                            // 速度（擴散程度）
+            );
+        }
 
         this.move(net.minecraft.world.entity.MoverType.SELF, this.getDeltaMovement());
 
