@@ -16,6 +16,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 
+import java.util.Optional;
+
 public class MeteorStick extends Item {
     public MeteorStick(Properties props) {
         super(props);
@@ -25,10 +27,10 @@ public class MeteorStick extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if (!level.isClientSide()){
-            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 20, 9));
-            player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 1200, 3));
-        }
+//        if (!level.isClientSide()){
+//            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 20, 9));
+//            player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 1200, 3));
+//        }
         if (player.level instanceof ServerLevel serverLevel) {
             RandomSource random = player.getRandom();
 
@@ -38,7 +40,7 @@ public class MeteorStick extends Item {
                 double y = player.getY() + 170;
 
                 player.level.playSound(null, player.blockPosition(), new SoundEvent(new ResourceLocation("markedfordeath", "meteorfall")), SoundSource.HOSTILE, 10.0F, 0.8F);
-                MeteorEntity meteor = new MeteorEntity(serverLevel, x, y, z);
+                MeteorEntity meteor = new MeteorEntity(serverLevel, x, y, z, Optional.of(player));
                 serverLevel.addFreshEntity(meteor);
             }
         }

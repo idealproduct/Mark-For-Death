@@ -34,6 +34,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 
 import java.util.List;
+import java.util.Optional;
 
 public class TowerGuardianEntity extends Monster {
 
@@ -157,7 +158,7 @@ public class TowerGuardianEntity extends Monster {
             double y = this.getY() + 170;
 
             this.level.playSound(null, this.blockPosition(), new SoundEvent(new ResourceLocation("markedfordeath", "meteorfall")), SoundSource.HOSTILE, 10.0F, 0.8F);
-            MeteorEntity meteor = new MeteorEntity(serverLevel, x, y, z);
+            MeteorEntity meteor = new MeteorEntity(serverLevel, x, y, z, Optional.empty());
             serverLevel.addFreshEntity(meteor);
         }
     }
