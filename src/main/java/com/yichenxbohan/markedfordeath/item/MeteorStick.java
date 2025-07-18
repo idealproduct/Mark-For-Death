@@ -26,7 +26,7 @@ public class MeteorStick extends Item {
         ItemStack stack = player.getItemInHand(hand);
 
         if (!level.isClientSide()){
-            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 5, 39));
+            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 20, 9));
             player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 1200, 3));
         }
         if (player.level instanceof ServerLevel serverLevel) {
