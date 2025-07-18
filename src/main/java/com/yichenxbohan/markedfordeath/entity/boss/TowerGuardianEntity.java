@@ -18,6 +18,11 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.monster.Zombie;
@@ -52,8 +57,9 @@ public class TowerGuardianEntity extends Monster {
                 .add(Attributes.MAX_HEALTH, 300.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.25D)
                 .add(Attributes.FOLLOW_RANGE, 32.0D)
-                .add(Attributes.ATTACK_DAMAGE, 10.0D)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D);
+                .add(Attributes.ATTACK_DAMAGE, 7.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.0D)
+                .add(Attributes.ATTACK_SPEED, 3);
     }
 
     // ===== 每 tick 處理攻擊技能與階段判定 =====
@@ -188,6 +194,22 @@ public class TowerGuardianEntity extends Monster {
         bossEvent.setProgress(1.0F);
         this.setPersistenceRequired();
         return super.finalizeSpawn(accessor, difficulty, reason, data, tag);
+    }
+
+    @Override
+    protected void registerGoals() {
+        // 近戰攻擊（不一定會用到，但可以加）
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
+
+        // 看著玩家
+        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 16.0F));
+
+        // 隨機轉頭
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+
+        // 追蹤玩家
+        this.goalSelector.addGoal(1, new WaterAvoidingRandomStrollGoal(this, 0.8D)); // 隨機移動
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
 }

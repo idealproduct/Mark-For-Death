@@ -21,7 +21,7 @@ import java.util.List;
 
 public class MeteorEntity extends Entity {
 
-    private static final float DAMAGE = 10.0F;
+    private static final float DAMAGE = 15.0F;
 
     public MeteorEntity(EntityType<? extends MeteorEntity> type, Level level) {
         super(type, level);
@@ -83,7 +83,7 @@ public class MeteorEntity extends Entity {
         serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.EXPLOSION,
                 this.getX(), this.getY(), this.getZ(), 10, 0.5, 0.5, 0.5, 0.1);
 
-        AABB damageArea = this.getBoundingBox().inflate(3.0D);
+        AABB damageArea = this.getBoundingBox().inflate(20.0D);
         List<Player> players = this.level.getEntitiesOfClass(Player.class, damageArea);
         for (Player player : players) {
             player.hurt(DamageSource.MAGIC, DAMAGE);
