@@ -8,6 +8,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -23,6 +25,10 @@ public class MeteorStick extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
+        if (!level.isClientSide()){
+            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 5, 39));
+            player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 1200, 3));
+        }
         if (player.level instanceof ServerLevel serverLevel) {
             RandomSource random = player.getRandom();
 
