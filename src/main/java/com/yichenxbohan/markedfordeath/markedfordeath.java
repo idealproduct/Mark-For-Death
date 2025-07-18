@@ -4,7 +4,6 @@ import com.mojang.logging.LogUtils;
 import com.yichenxbohan.markedfordeath.command.SpawnCommand;
 import com.yichenxbohan.markedfordeath.command.TargetCommand;
 import com.yichenxbohan.markedfordeath.entity.ModEntities;
-import com.yichenxbohan.markedfordeath.event.Clickchest;
 import com.yichenxbohan.markedfordeath.event.WeaponQualityApplier;
 import com.yichenxbohan.markedfordeath.item.ModItems;
 import net.minecraft.client.Minecraft;
@@ -17,7 +16,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -30,8 +28,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
-
-import static com.yichenxbohan.markedfordeath.entity.ModEntities.ENTITIES;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(markedfordeath.MODID)

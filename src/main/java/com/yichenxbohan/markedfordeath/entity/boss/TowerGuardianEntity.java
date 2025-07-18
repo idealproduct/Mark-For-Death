@@ -26,6 +26,7 @@ import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.network.PacketDistributor;
 
 import java.util.List;
 
@@ -60,7 +61,9 @@ public class TowerGuardianEntity extends Monster {
     public void tick() {
         super.tick();
 
-        if (this.level.isClientSide) return;
+        if (this.level.isClientSide) {
+            return;
+        }
 
         bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
 
@@ -183,6 +186,8 @@ public class TowerGuardianEntity extends Monster {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor accessor, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData data, CompoundTag tag) {
         bossEvent.setProgress(1.0F);
+        this.setPersistenceRequired();
         return super.finalizeSpawn(accessor, difficulty, reason, data, tag);
     }
+
 }
