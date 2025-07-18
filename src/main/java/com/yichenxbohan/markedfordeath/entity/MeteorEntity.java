@@ -1,5 +1,6 @@
 package com.yichenxbohan.markedfordeath.entity;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerLevel;
@@ -10,9 +11,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.network.NetworkHooks;
 
+import java.util.Random;
 import java.util.List;
 
 public class MeteorEntity extends Entity {
@@ -48,11 +52,24 @@ public class MeteorEntity extends Entity {
                     10, 10, 10, // X、Y、Z 偏移範圍（生成範圍）
                     0.02                            // 速度（擴散程度）
             );
+
+            Random random = new Random();
+            BlockPos center = this.blockPosition();
+            for (int dx = -8; dx <= 8; dx++) {
+                for (int dz = -8; dz <= 8; dz++) {
+                    BlockPos targetPos = new BlockPos(center.getX() + dx, y, center.getZ() + dz);
+                    BlockPos targetPos1 = new BlockPos(center.getX() + dx, y+1, center.getZ() + dz);
+                    if(level.getBlockState(targetPos1).getBlock() != Blocks.LIGHT_GRAY_STAINED_GLASS )break;
+                    if(random.nextInt() % 2 == 1)break;
+                    serverLevel.setBlockAndUpdate(targetPos, Blocks.AIR.defaultBlockState());
+                    serverLevel.setBlockAndUpdate(targetPos1, Blocks.AIR.defaultBlockState());
+                }
+            }
         }
 
         this.move(net.minecraft.world.entity.MoverType.SELF, this.getDeltaMovement());
 
-        if (this.isOnGround() || this.getY() < this.level.getMinBuildHeight() + 1) {
+        if (this.isOnGround() || this.getY() < this.level.getMinBuildHeight()+2) {
             explode();
             this.discard();
         }
