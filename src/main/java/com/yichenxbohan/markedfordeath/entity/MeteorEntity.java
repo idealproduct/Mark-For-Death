@@ -16,20 +16,23 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.network.NetworkHooks;
 
+import java.util.Optional;
 import java.util.Random;
 import java.util.List;
 
 public class MeteorEntity extends Entity {
 
     private static final float DAMAGE = 15.0F;
+    private Optional<Player> summoner = Optional.empty();
 
-    public MeteorEntity(EntityType<? extends MeteorEntity> type, Level level) {
+    public MeteorEntity(EntityType<? extends MeteorEntity> type, Level level, Optional<Player> summoner) {
         super(type, level);
         this.noPhysics = false;
+        this.summoner = summoner;
     }
 
-    public MeteorEntity(Level level, double x, double y, double z) {
-        this(ModEntities.METEOR.get(), level);
+    public MeteorEntity(Level level, double x, double y, double z, Optional<Player> summoner) {
+        this(ModEntities.METEOR.get(), level, summoner);
         this.setPos(x, y, z);
         this.setDeltaMovement(0, -1.5, 0);
     }
@@ -86,6 +89,7 @@ public class MeteorEntity extends Entity {
         AABB damageArea = this.getBoundingBox().inflate(20.0D);
         List<Player> players = this.level.getEntitiesOfClass(Player.class, damageArea);
         for (Player player : players) {
+            if (this.summoner.isPresent() && this.summoner.get() == player) continue;
             player.hurt(DamageSource.MAGIC, DAMAGE);
         }
     }

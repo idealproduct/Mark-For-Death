@@ -5,10 +5,13 @@ import com.yichenxbohan.markedfordeath.markedfordeath;
 import com.yichenxbohan.markedfordeath.entity.TrackingEyeEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.Optional;
 
 import static net.minecraftforge.registries.ForgeRegistries.Keys.ENTITY_TYPES;
 
@@ -40,7 +43,7 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<MeteorEntity>> METEOR =
             ENTITIES.register("meteor", () ->
-                    EntityType.Builder.<MeteorEntity>of(MeteorEntity::new, MobCategory.MISC)
+                    EntityType.Builder.<MeteorEntity>of((EntityType<MeteorEntity> et, Level l) -> new MeteorEntity(et, l, Optional.empty()), MobCategory.MISC)
                             .sized(50.0F, 50.0F)
                             .fireImmune()
                             .build("meteor"));
