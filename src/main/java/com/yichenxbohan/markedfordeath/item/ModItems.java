@@ -47,6 +47,9 @@ public class ModItems {
     public static final RegistryObject<Item> METEOR = ITEMS.register("meteor",
             () -> new Item(new Item.Properties().stacksTo(64).tab(CreativeModeTab.TAB_MISC)));
 
+    public static final RegistryObject<Item> METEOR_STICK = ITEMS.register("meteor_stick",
+            () -> new MeteorStick(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC)));
+
     public static final RegistryObject<Item> DASH = ITEMS.register("dash",
             () -> new DashItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
 

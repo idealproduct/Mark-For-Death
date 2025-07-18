@@ -12,5 +12,6 @@
   "item.markedfordeath.flash_eye": "skill: flash",
   "item.markedfordeath.bedrock_wall": "skill: barrier",
   "item.markedfordeath.space_hourglass": "skill: space hourglass",
+  "item.markedfordeath.meteor_stick": "skill: summon meteor",
   "entity.markedfordeath.tower_guardian": "tower guardian"
 }
