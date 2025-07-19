@@ -12,6 +12,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.Witch;
@@ -20,6 +21,7 @@ import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 
 import java.util.Optional;
@@ -50,6 +52,20 @@ public class MeteorEntity extends Entity {
 
         if (this.level.isClientSide) return;
 
+        this.setNoGravity(false);
+
+        Vec3 motion = this.getDeltaMovement();
+
+        motion = motion.multiply(0, 0.9, 0);
+
+        if(!this.isNoGravity()){
+            motion = motion.add(0, -0.05, 0);
+        }
+
+        this.setDeltaMovement(motion);
+
+        this.move(MoverType.SELF, motion);
+
         if (this.level instanceof ServerLevel serverLevel) {
             double x = this.getX();
             double y = this.getY() - 50;  // 向下偏移 0.5 格
@@ -77,7 +93,6 @@ public class MeteorEntity extends Entity {
             }
         }
 
-        this.move(net.minecraft.world.entity.MoverType.SELF, this.getDeltaMovement());
 
         if (this.isOnGround() || this.getY() < this.level.getMinBuildHeight() + 2) {
             explode();
