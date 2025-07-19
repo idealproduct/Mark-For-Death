@@ -1,5 +1,6 @@
 package com.yichenxbohan.markedfordeath.entity;
 
+import com.yichenxbohan.markedfordeath.entity.boss.TowerGuardianEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
@@ -9,6 +10,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -23,6 +25,7 @@ import java.util.List;
 public class MeteorEntity extends Entity {
 
     private static final float DAMAGE = 15.0F;
+    private static final float DAMAGE_ON_ENTITY = 30;
     private Optional<Player> summoner = Optional.empty();
 
     public MeteorEntity(EntityType<? extends MeteorEntity> type, Level level, Optional<Player> summoner) {
@@ -61,9 +64,9 @@ public class MeteorEntity extends Entity {
             for (int dx = -8; dx <= 8; dx++) {
                 for (int dz = -8; dz <= 8; dz++) {
                     BlockPos targetPos = new BlockPos(center.getX() + dx, y, center.getZ() + dz);
-                    BlockPos targetPos1 = new BlockPos(center.getX() + dx, y+1, center.getZ() + dz);
-                    if(level.getBlockState(targetPos1).getBlock() != Blocks.LIGHT_GRAY_STAINED_GLASS )break;
-                    if(random.nextInt() % 2 == 1)break;
+                    BlockPos targetPos1 = new BlockPos(center.getX() + dx, y + 1, center.getZ() + dz);
+                    if (level.getBlockState(targetPos1).getBlock() != Blocks.LIGHT_GRAY_STAINED_GLASS) break;
+                    if (random.nextInt() % 2 == 1) break;
                     serverLevel.setBlockAndUpdate(targetPos, Blocks.AIR.defaultBlockState());
                     serverLevel.setBlockAndUpdate(targetPos1, Blocks.AIR.defaultBlockState());
                 }
@@ -72,7 +75,7 @@ public class MeteorEntity extends Entity {
 
         this.move(net.minecraft.world.entity.MoverType.SELF, this.getDeltaMovement());
 
-        if (this.isOnGround() || this.getY() < this.level.getMinBuildHeight()+2) {
+        if (this.isOnGround() || this.getY() < this.level.getMinBuildHeight() + 2) {
             explode();
             this.discard();
         }
@@ -80,7 +83,6 @@ public class MeteorEntity extends Entity {
 
     private void explode() {
         if (!(this.level instanceof ServerLevel serverLevel)) return;
-
         serverLevel.playSound(null, this.blockPosition(), SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE, 3.0F, 1.0F);
 
         serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.EXPLOSION,
@@ -92,19 +94,33 @@ public class MeteorEntity extends Entity {
             if (this.summoner.isPresent() && this.summoner.get() == player) continue;
             player.hurt(DamageSource.MAGIC, DAMAGE);
         }
+
+
+        // 額外新增：攻擊除玩家外的其他生物
+        List<LivingEntity> entities = this.level.getEntitiesOfClass(LivingEntity.class, damageArea);
+        for (LivingEntity entity : entities) {
+            // 避免重複攻擊玩家（已經被上面處理過了）
+            if (entity instanceof Player || entity instanceof TowerGuardianEntity) continue;
+            entity.hurt(DamageSource.MAGIC, DAMAGE_ON_ENTITY);
+        }
     }
 
     @Override
-    protected void defineSynchedData() {}
+    protected void defineSynchedData() {
+    }
 
     @Override
-    protected void readAdditionalSaveData(net.minecraft.nbt.CompoundTag tag) {}
+    protected void readAdditionalSaveData(net.minecraft.nbt.CompoundTag tag) {
+    }
 
     @Override
-    protected void addAdditionalSaveData(net.minecraft.nbt.CompoundTag tag) {}
+    protected void addAdditionalSaveData(net.minecraft.nbt.CompoundTag tag) {
+    }
 
     @Override
     public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 }
+
+
