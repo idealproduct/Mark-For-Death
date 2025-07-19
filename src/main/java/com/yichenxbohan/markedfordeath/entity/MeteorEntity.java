@@ -5,12 +5,16 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.monster.Witch;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -25,7 +29,7 @@ import java.util.List;
 public class MeteorEntity extends Entity {
 
     private static final float DAMAGE = 15.0F;
-    private static final float DAMAGE_ON_ENTITY = 30;
+    private static final float DAMAGE_ON_ENTITY = 30.0f;
     private Optional<Player> summoner = Optional.empty();
 
     public MeteorEntity(EntityType<? extends MeteorEntity> type, Level level, Optional<Player> summoner) {
@@ -92,16 +96,30 @@ public class MeteorEntity extends Entity {
         List<Player> players = this.level.getEntitiesOfClass(Player.class, damageArea);
         for (Player player : players) {
             if (this.summoner.isPresent() && this.summoner.get() == player) continue;
+            if (player.isCreative()){
+                player.hurt(DamageSource.OUT_OF_WORLD, 5);
+                break;
+            }
             player.hurt(DamageSource.MAGIC, DAMAGE);
         }
 
-
-        // 額外新增：攻擊除玩家外的其他生物
         List<LivingEntity> entities = this.level.getEntitiesOfClass(LivingEntity.class, damageArea);
         for (LivingEntity entity : entities) {
-            // 避免重複攻擊玩家（已經被上面處理過了）
             if (entity instanceof Player || entity instanceof TowerGuardianEntity) continue;
+            if (entity instanceof Witch){
+                entity.hurt(DamageSource.OUT_OF_WORLD, DAMAGE_ON_ENTITY);
+                break;
+            }
+            if (entity instanceof EnderDragon && players instanceof ServerPlayer serverplayer){
+                entity.hurt(DamageSource.playerAttack(serverplayer), 50);
+                break;
+            }
             entity.hurt(DamageSource.MAGIC, DAMAGE_ON_ENTITY);
+        }
+
+        List<EndCrystal> crystals = this.level.getEntitiesOfClass(EndCrystal.class, damageArea);
+        for (EndCrystal crystal : crystals) {
+            crystal.hurt(DamageSource.MAGIC, DAMAGE);
         }
     }
 
