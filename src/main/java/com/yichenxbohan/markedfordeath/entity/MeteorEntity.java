@@ -16,9 +16,9 @@ import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.Witch;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.network.NetworkHooks;
 
@@ -94,13 +94,29 @@ public class MeteorEntity extends Entity {
 
         AABB damageArea = this.getBoundingBox().inflate(20.0D);
         List<Player> players = this.level.getEntitiesOfClass(Player.class, damageArea);
-        for (Player player : players) {
+        for (Player player : this.level.players()) {
+            if (!damageArea.contains(player.position())) continue;
             if (this.summoner.isPresent() && this.summoner.get() == player) continue;
             if (player.isCreative()){
-                player.hurt(DamageSource.OUT_OF_WORLD, 5);
+                player.getPersistentData().putBoolean("MarkedByMeteor", true);
+                player.hurt(DamageSource.OUT_OF_WORLD, 11.0F);
+                player.getPersistentData().remove("MarkedByMeteor");
                 break;
             }
+            if (player instanceof ServerPlayer serverplayer){
+                GameType gamemode = serverplayer.gameMode.getGameModeForPlayer();
+                if(gamemode == GameType.SPECTATOR){
+                    serverplayer.setGameMode(GameType.CREATIVE);
+                    player.getPersistentData().putBoolean("MarkedByMeteor", true);
+                    player.hurt(DamageSource.OUT_OF_WORLD, 11.0F);
+                    player.getPersistentData().remove("MarkedByMeteor");
+                    serverplayer.setGameMode(GameType.SPECTATOR);
+                    break;
+                }
+            }
+            player.getPersistentData().putBoolean("MarkedByMeteor", true);
             player.hurt(DamageSource.MAGIC, DAMAGE);
+            player.getPersistentData().remove("MarkedByMeteor");
         }
 
         List<LivingEntity> entities = this.level.getEntitiesOfClass(LivingEntity.class, damageArea);
