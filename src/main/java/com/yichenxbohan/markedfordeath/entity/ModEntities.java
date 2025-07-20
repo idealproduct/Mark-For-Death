@@ -48,6 +48,13 @@ public class ModEntities {
                             .fireImmune()
                             .build("meteor"));
 
+    public static final RegistryObject<EntityType<MeteorRGBEntity>> METEORRGB =
+            ENTITIES.register("meteorrgb", () ->
+                    EntityType.Builder.<MeteorRGBEntity>of((EntityType<MeteorRGBEntity> et, Level l) -> new MeteorRGBEntity(et, l, Optional.empty()), MobCategory.MISC)
+                            .sized(50.0F, 50.0F)
+                            .fireImmune()
+                            .build("meteorrgb"));
+
 
     public static void register(IEventBus bus) {
         ENTITIES.register(bus);

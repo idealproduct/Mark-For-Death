@@ -24,24 +24,24 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.List;
 
-public class MeteorEntity extends Entity {
+public class MeteorRGBEntity extends Entity {
 
-    private static final float DAMAGE = 15.0F;
-    private static final float DAMAGE_ON_ENTITY = 30.0f;
-    private Optional<Player> summoner = Optional.empty();
+    private static final float DAMAGE = 20.0F;
+    private static final float DAMAGE_ON_ENTITY = 60.0f;
+    private Optional<Player> summonerRGB = Optional.empty();
 
-    public MeteorEntity(EntityType<? extends MeteorEntity> type, Level level, Optional<Player> summoner) {
+    public MeteorRGBEntity(EntityType<? extends MeteorRGBEntity> type, Level level, Optional<Player> summonerRGB) {
         super(type, level);
         this.noPhysics = false;
-        this.summoner = summoner;
+        this.summonerRGB = summonerRGB;
     }
 
-    public MeteorEntity(Level level, double x, double y, double z, Optional<Player> summoner) {
-        this(ModEntities.METEOR.get(), level, summoner);
+    public MeteorRGBEntity(Level level, double x, double y, double z, Optional<Player> summonerRGB) {
+        this(ModEntities.METEORRGB.get(), level, summonerRGB);
         this.setPos(x, y, z);
         this.setDeltaMovement(0, -1.5, 0);
     }
@@ -104,17 +104,17 @@ public class MeteorEntity extends Entity {
         if (!(this.level instanceof ServerLevel serverLevel)) return;
         serverLevel.playSound(null, this.blockPosition(), SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE, 3.0F, 1.0F);
 
-        serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.EXPLOSION,
+        serverLevel.sendParticles(ParticleTypes.EXPLOSION,
                 this.getX(), this.getY(), this.getZ(), 10, 0.5, 0.5, 0.5, 0.1);
 
         AABB damageArea = this.getBoundingBox().inflate(20.0D);
         List<Player> players = this.level.getEntitiesOfClass(Player.class, damageArea);
         for (Player player : this.level.players()) {
             if (!damageArea.contains(player.position())) continue;
-            if (this.summoner.isPresent() && this.summoner.get() == player) continue;
+            if (this.summonerRGB.isPresent() && this.summonerRGB.get() == player) continue;
             if (player.isCreative()){
                 player.getPersistentData().putBoolean("MarkedByMeteor", true);
-                player.hurt(DamageSource.OUT_OF_WORLD, 11.0F);
+                player.hurt(DamageSource.OUT_OF_WORLD, 20.0F);
                 player.getPersistentData().remove("MarkedByMeteor");
                 break;
             }
@@ -123,7 +123,7 @@ public class MeteorEntity extends Entity {
                 if(gamemode == GameType.SPECTATOR){
                     serverplayer.setGameMode(GameType.CREATIVE);
                     player.getPersistentData().putBoolean("MarkedByMeteor", true);
-                    player.hurt(DamageSource.OUT_OF_WORLD, 11.0F);
+                    player.hurt(DamageSource.OUT_OF_WORLD, 20.0F);
                     player.getPersistentData().remove("MarkedByMeteor");
                     serverplayer.setGameMode(GameType.SPECTATOR);
                     break;
