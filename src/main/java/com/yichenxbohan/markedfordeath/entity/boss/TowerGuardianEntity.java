@@ -155,9 +155,9 @@ public class TowerGuardianEntity extends Monster {
         for (int i = 0; i < 5; i++) {
             double x = this.getX() + random.nextInt(15) - 7;
             double z = this.getZ() + random.nextInt(15) - 7;
-            double y = this.getY() + 170;
+            double y = this.getY() + 85;
 
-            this.level.playSound(null, this.blockPosition(), new SoundEvent(new ResourceLocation("markedfordeath", "meteorfall")), SoundSource.HOSTILE, 10.0F, 0.8F);
+            this.level.playSound(null, this.blockPosition(), new SoundEvent(new ResourceLocation("markedfordeath", "meteorfall")), SoundSource.HOSTILE, 2.0F, 0.6F);
             MeteorEntity meteor = new MeteorEntity(serverLevel, x, y, z, Optional.empty());
             serverLevel.addFreshEntity(meteor);
         }

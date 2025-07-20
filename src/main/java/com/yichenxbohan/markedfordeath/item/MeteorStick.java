@@ -37,9 +37,9 @@ public class MeteorStick extends Item {
             for (int i = 0; i < 5; i++) {
                 double x = player.getX() + random.nextInt(15) - 7;
                 double z = player.getZ() + random.nextInt(15) - 7;
-                double y = player.getY() + 170;
+                double y = player.getY() + 85;
 
-                player.level.playSound(null, player.blockPosition(), new SoundEvent(new ResourceLocation("markedfordeath", "meteorfall")), SoundSource.HOSTILE, 10.0F, 0.8F);
+                player.level.playSound(null, player.blockPosition(), new SoundEvent(new ResourceLocation("markedfordeath", "meteorfall")), SoundSource.HOSTILE, 5.0F, 0.6F);
                 MeteorEntity meteor = new MeteorEntity(serverLevel, x, y, z, Optional.of(player));
                 serverLevel.addFreshEntity(meteor);
             }

@@ -1,7 +1,8 @@
 modLoader="javafml"
-loaderVersion="[43,)"  # Forge 1.19.2 43.x 版本以上都通用
+loaderVersion="[43,)"
 license="MIT"
 issueTrackerURL="https://github.com/idealproduct/MarkedForDeath/issues"
+
 [[mods]]
 modId="markedfordeath"
 version="1.0.0"
@@ -11,3 +12,5 @@ description='''
 '''
 authors="林柏翰🥵林奕丞"
 credits="這是一個由林奕丞和林柏翰這對好兄弟開發的牛逼模組"
+
+

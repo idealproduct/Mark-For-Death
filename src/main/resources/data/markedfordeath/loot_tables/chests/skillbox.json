@@ -111,7 +111,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "markedfordeath:SmokeBombItem",
+          "name": "markedfordeath:smoke_bomb",
           "weight": 1,
           "quality": 2,
           "conditions": [
