@@ -1,4 +1,4 @@
-package com.yichenxbohan.markedfordeath.client;
+package com.yichenxbohan.markedfordeath.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yichenxbohan.markedfordeath.entity.BulletEntity;

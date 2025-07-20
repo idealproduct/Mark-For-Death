@@ -1,8 +1,8 @@
-package com.yichenxbohan.markedfordeath.client;
+package com.yichenxbohan.markedfordeath.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.yichenxbohan.markedfordeath.client.model.MeteorModel;
 import com.yichenxbohan.markedfordeath.entity.MeteorEntity;
-import com.yichenxbohan.markedfordeath.entity.MeteorRGBEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -12,24 +12,24 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
-public class MeteorRGBRenderer extends EntityRenderer<MeteorRGBEntity> {
-    private final EntityModel<MeteorRGBEntity> model;
+public class MeteorRenderer extends EntityRenderer<MeteorEntity> {
+    private final EntityModel<MeteorEntity> model;
 
     public static final ModelLayerLocation LAYER_LOCATION =
             new ModelLayerLocation(new ResourceLocation("markedfordeath", "meteor"), "main");
 
-    public MeteorRGBRenderer(EntityRendererProvider.Context context) {
+    public MeteorRenderer(EntityRendererProvider.Context context) {
         super(context);
-        this.model = new meteorrgb<>(context.bakeLayer(LAYER_LOCATION));
+        this.model = new MeteorModel<>(context.bakeLayer(LAYER_LOCATION));
     }
 
     @Override
-    public ResourceLocation getTextureLocation(MeteorRGBEntity entity) {
+    public ResourceLocation getTextureLocation(MeteorEntity entity) {
         return new ResourceLocation("markedfordeath", "textures/entity/meteor.png");
     }
 
     @Override
-    public void render(MeteorRGBEntity entity, float yaw, float partialTicks,
+    public void render(MeteorEntity entity, float yaw, float partialTicks,
                        PoseStack matrixStack, MultiBufferSource buffer, int packedLight) {
 
 

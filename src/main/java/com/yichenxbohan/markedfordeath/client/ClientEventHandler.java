@@ -1,20 +1,16 @@
 package com.yichenxbohan.markedfordeath.client;
 
+import com.yichenxbohan.markedfordeath.client.model.MeteorModel;
+import com.yichenxbohan.markedfordeath.client.renderer.*;
 import com.yichenxbohan.markedfordeath.entity.ModEntities;
 import com.yichenxbohan.markedfordeath.item.ModelSoulArmor;
 import com.yichenxbohan.markedfordeath.markedfordeath;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import com.yichenxbohan.markedfordeath.client.TrackingEyeRenderer;
 
 @Mod.EventBusSubscriber(modid = markedfordeath.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientEventHandler {
@@ -36,7 +32,7 @@ public class ClientEventHandler {
                 ModelSoulArmor.LAYER_LOCATION,
                 ModelSoulArmor::createBodyLayer
         );
-        event.registerLayerDefinition(meteor.LAYER_LOCATION, meteor::createBodyLayer);
+        event.registerLayerDefinition(MeteorModel.LAYER_LOCATION, MeteorModel::createBodyLayer);
     }
     @SubscribeEvent
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
