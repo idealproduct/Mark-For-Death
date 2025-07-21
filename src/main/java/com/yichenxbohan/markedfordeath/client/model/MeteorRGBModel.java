@@ -13,9 +13,11 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
+import static com.yichenxbohan.markedfordeath.util.RenderUtils.hslToRgb;
+
 public class MeteorRGBModel<T extends Entity> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("markedfordeath", "meteor"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("markedfordeath", "meteorrgb"), "main");
 	private final ModelPart bb_main;
 
 	public MeteorRGBModel(ModelPart root) {
@@ -114,20 +116,14 @@ public class MeteorRGBModel<T extends Entity> extends EntityModel<T> {
 	public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 	}
 
+	public static final long CYCLE_DURATION = 3000;
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-			// 使用更高頻率的時間（每秒循環 10 次以上）
-			float time = (System.currentTimeMillis() % 1000L) / 1000.0f; // 每秒循環一次
-			time *= 2.0f; // 提高頻率（例如 10 倍）
-
-			float r = (float)(Math.sin(time * 2 * Math.PI + 0.0f) * 0.5f + 0.5f);
-			float g = (float)(Math.sin(time * 2 * Math.PI + 2.0f) * 0.5f + 0.5f);
-			float b = (float)(Math.sin(time * 2 * Math.PI + 4.0f) * 0.5f + 0.5f);
-
-			bb_main.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, alpha);
-
+		long elapsedInCycle = System.currentTimeMillis() % CYCLE_DURATION;
+		var rgb = hslToRgb((float) ((elapsedInCycle / (double) CYCLE_DURATION) * 360.0), 0.5f, 0.5f);
+		float r = rgb[0], g = rgb[1], b = rgb[2];
+		bb_main.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, alpha);
 	}
-
 
 }

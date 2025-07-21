@@ -25,7 +25,7 @@ public class MeteorRGBRenderer extends EntityRenderer<MeteorRGBEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(MeteorRGBEntity entity) {
-        return new ResourceLocation("markedfordeath", "textures/entity/meteor.png");
+        return new ResourceLocation("markedfordeath", "textures/entity/meteor_rgb.png");
     }
 
     @Override

@@ -18,6 +18,8 @@ import net.minecraft.world.level.Level;
 import java.util.Optional;
 import java.util.Random;
 
+import static com.yichenxbohan.markedfordeath.ModSounds.METEOR_FALL_SOUND;
+
 public class MeteorStick extends Item {
     public MeteorStick(Properties props) {
         super(props);
@@ -37,10 +39,6 @@ public class MeteorStick extends Item {
 
         isrgb = getRandomInt(2);
 
-//        if (!level.isClientSide()){
-//            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 20, 9));
-//            player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 1200, 3));
-//        }
         if (player.level instanceof ServerLevel serverLevel) {
             RandomSource random = player.getRandom();
 
@@ -50,12 +48,12 @@ public class MeteorStick extends Item {
                 //double y = player.getY() + 85;
                 double y = player.getY() + 200;
 
+                player.level.playSound(null, player.blockPosition(), METEOR_FALL_SOUND.get(), SoundSource.HOSTILE, 5.0F, 0.6F);
+
                 if(isrgb==1){
-                    player.level.playSound(null, player.blockPosition(), new SoundEvent(new ResourceLocation("markedfordeath", "meteorfall")), SoundSource.HOSTILE, 5.0F, 0.6F);
                     MeteorRGBEntity Meteorrgb = new MeteorRGBEntity(serverLevel, x, y, z, Optional.of(player));
                     serverLevel.addFreshEntity(Meteorrgb);
                 }else{
-                    player.level.playSound(null, player.blockPosition(), new SoundEvent(new ResourceLocation("markedfordeath", "meteorfall")), SoundSource.HOSTILE, 5.0F, 0.6F);
                     MeteorEntity Meteor = new MeteorEntity(serverLevel, x, y, z, Optional.of(player));
                     serverLevel.addFreshEntity(Meteor);
                 }
