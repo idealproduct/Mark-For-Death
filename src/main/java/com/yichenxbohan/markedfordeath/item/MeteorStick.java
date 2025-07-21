@@ -2,9 +2,7 @@ package com.yichenxbohan.markedfordeath.item;
 
 import com.yichenxbohan.markedfordeath.entity.MeteorEntity;
 import com.yichenxbohan.markedfordeath.entity.MeteorRGBEntity;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -14,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.Random;
@@ -34,7 +33,7 @@ public class MeteorStick extends Item {
     public static int isrgb;
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
         isrgb = getRandomInt(2);
@@ -62,7 +61,7 @@ public class MeteorStick extends Item {
         return InteractionResultHolder.success(stack);
     }
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack) {
         return UseAnim.BOW;
     }
 }
