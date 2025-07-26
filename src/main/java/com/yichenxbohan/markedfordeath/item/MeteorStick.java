@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import static com.yichenxbohan.markedfordeath.ModSounds.METEOR_FALL_SOUND;
+import static com.yichenxbohan.markedfordeath.ModSounds.RGB_METEOR_FALL_SOUND;
 
 public class MeteorStick extends Item {
     public MeteorStick(Properties props) {
@@ -47,14 +48,14 @@ public class MeteorStick extends Item {
                 //double y = player.getY() + 85;
                 double y = player.getY() + 200;
 
-                player.level.playSound(null, player.blockPosition(), METEOR_FALL_SOUND.get(), SoundSource.HOSTILE, 5.0F, 0.6F);
-
                 if(isrgb==1){
                     MeteorRGBEntity Meteorrgb = new MeteorRGBEntity(serverLevel, x, y, z, Optional.of(player));
                     serverLevel.addFreshEntity(Meteorrgb);
+                    player.level.playSound(null, player.blockPosition(), RGB_METEOR_FALL_SOUND.get(), SoundSource.HOSTILE, 5.0F, 1.0f);
                 }else{
                     MeteorEntity Meteor = new MeteorEntity(serverLevel, x, y, z, Optional.of(player));
                     serverLevel.addFreshEntity(Meteor);
+                    player.level.playSound(null, player.blockPosition(), METEOR_FALL_SOUND.get(), SoundSource.HOSTILE, 5.0F, 0.6F);
                 }
             }
         }

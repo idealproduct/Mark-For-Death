@@ -9,5 +9,16 @@
         "stream": false
       }
     ]
+  },
+  "rgbmeteorfall": {
+    "sounds": [
+      {
+        "name": "markedfordeath:rgbmeteorfall",
+        "volume": 1.0,
+        "pitch": 1.0,
+        "weight": 1,
+        "stream": false
+      }
+    ]
   }
 }
