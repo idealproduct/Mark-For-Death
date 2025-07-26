@@ -1,4 +1,4 @@
-package com.yichenxbohan.markedfordeath.client;
+package com.yichenxbohan.markedfordeath.client.renderer;
 
 import com.yichenxbohan.markedfordeath.entity.boss.TowerGuardianEntity;
 import net.minecraft.client.model.HumanoidModel;

@@ -1,6 +1,7 @@
-package com.yichenxbohan.markedfordeath.client;
+package com.yichenxbohan.markedfordeath.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.yichenxbohan.markedfordeath.client.model.MeteorModel;
 import com.yichenxbohan.markedfordeath.entity.MeteorEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -19,7 +20,7 @@ public class MeteorRenderer extends EntityRenderer<MeteorEntity> {
 
     public MeteorRenderer(EntityRendererProvider.Context context) {
         super(context);
-        this.model = new meteor<>(context.bakeLayer(LAYER_LOCATION));
+        this.model = new MeteorModel<>(context.bakeLayer(LAYER_LOCATION));
     }
 
     @Override

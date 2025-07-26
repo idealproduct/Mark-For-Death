@@ -2,24 +2,22 @@ package com.yichenxbohan.markedfordeath.item;
 
 import com.yichenxbohan.markedfordeath.entity.MeteorEntity;
 import com.yichenxbohan.markedfordeath.entity.MeteorRGBEntity;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import com.yichenxbohan.markedfordeath.client.meteor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.Random;
+
+import static com.yichenxbohan.markedfordeath.ModSounds.METEOR_FALL_SOUND;
 
 public class MeteorStick extends Item {
     public MeteorStick(Properties props) {
@@ -35,15 +33,11 @@ public class MeteorStick extends Item {
     public static int isrgb;
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
         isrgb = getRandomInt(2);
 
-//        if (!level.isClientSide()){
-//            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 20, 9));
-//            player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 1200, 3));
-//        }
         if (player.level instanceof ServerLevel serverLevel) {
             RandomSource random = player.getRandom();
 
@@ -53,12 +47,12 @@ public class MeteorStick extends Item {
                 //double y = player.getY() + 85;
                 double y = player.getY() + 200;
 
+                player.level.playSound(null, player.blockPosition(), METEOR_FALL_SOUND.get(), SoundSource.HOSTILE, 5.0F, 0.6F);
+
                 if(isrgb==1){
-                    player.level.playSound(null, player.blockPosition(), new SoundEvent(new ResourceLocation("markedfordeath", "meteorfall")), SoundSource.HOSTILE, 5.0F, 0.6F);
                     MeteorRGBEntity Meteorrgb = new MeteorRGBEntity(serverLevel, x, y, z, Optional.of(player));
                     serverLevel.addFreshEntity(Meteorrgb);
                 }else{
-                    player.level.playSound(null, player.blockPosition(), new SoundEvent(new ResourceLocation("markedfordeath", "meteorfall")), SoundSource.HOSTILE, 5.0F, 0.6F);
                     MeteorEntity Meteor = new MeteorEntity(serverLevel, x, y, z, Optional.of(player));
                     serverLevel.addFreshEntity(Meteor);
                 }
@@ -67,7 +61,7 @@ public class MeteorStick extends Item {
         return InteractionResultHolder.success(stack);
     }
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack) {
         return UseAnim.BOW;
     }
 }
