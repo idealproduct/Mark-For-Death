@@ -12,7 +12,7 @@
   "item.markedfordeath.flash_eye": "skill: flash",
   "item.markedfordeath.bedrock_wall": "skill: barrier",
   "item.markedfordeath.space_hourglass": "skill: space hourglass",
-  "item.markedfordeath.meteor_stick": "skill: summon meteor",
+  "item.markedfordeath.meteor_wand": "skill: summon meteor",
   "entity.markedfordeath.tower_guardian": "tower guardian",
   "death.attack.killed_by_meteor": "%1$s is crushed into pieces by a meteorite"
 }

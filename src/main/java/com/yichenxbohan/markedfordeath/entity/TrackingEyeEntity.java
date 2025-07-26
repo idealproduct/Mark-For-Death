@@ -45,16 +45,10 @@ public class TrackingEyeEntity extends EyeOfEnder {
                     return;
                 }
                 targetPos = target.position();
-                //targetPos = new Vec3(0,60,0);
                 currentPos = this.position();
                 direction = targetPos.subtract(currentPos).normalize();
                 double speed = 0.1;
                 velocity = direction.scale(speed);
-
-
-
-            // 更新移動向量
-           // owner.sendSystemMessage(Component.literal(velocity.toString()));
 
             this.setDeltaMovement(velocity);
             this.move(MoverType.SELF, this.getDeltaMovement());

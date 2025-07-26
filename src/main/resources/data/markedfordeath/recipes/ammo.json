@@ -11,5 +11,6 @@
     "result": {
         "item": "markedfordeath:ammo",
         "count": 1
-    }
+    },
+    "group": "markedfordeath"
 }
