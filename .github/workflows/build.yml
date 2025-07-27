@@ -15,7 +15,8 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          java-version: '17'  # 或改成 8 依照你的 Forge 版本
+          distribution: temurin
+          java-version: '17'  # 你可依 Forge 版本調整成 8
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
