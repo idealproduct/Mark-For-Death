@@ -7,8 +7,8 @@
   ],
   "placement": {
     "type": "minecraft:random_spread",
-    "distance": 25,
-    "spread": 19,
+    "distance": 150,
+    "spread": 30,
     "count": 50,
     "preferred_biomes": [],
     "spacing": 25,

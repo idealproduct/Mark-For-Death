@@ -36,6 +36,8 @@ import net.minecraftforge.network.PacketDistributor;
 import java.util.List;
 import java.util.Optional;
 
+import static com.yichenxbohan.markedfordeath.ModSounds.METEOR_FALL_SOUND;
+
 public class TowerGuardianEntity extends Monster {
 
     private final ServerBossEvent bossEvent = new ServerBossEvent(
@@ -157,7 +159,7 @@ public class TowerGuardianEntity extends Monster {
             double z = this.getZ() + random.nextInt(15) - 7;
             double y = this.getY() + 200;
 
-            this.level.playSound(null, this.blockPosition(), new SoundEvent(new ResourceLocation("markedfordeath", "meteorfall")), SoundSource.HOSTILE, 2.0F, 0.6F);
+            this.level.playSound(null, this.blockPosition(), METEOR_FALL_SOUND.get(), SoundSource.HOSTILE, 2.0F, 0.6F);
             MeteorEntity meteor = new MeteorEntity(serverLevel, x, y, z, Optional.empty());
             serverLevel.addFreshEntity(meteor);
         }

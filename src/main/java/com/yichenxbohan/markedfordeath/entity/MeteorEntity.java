@@ -112,6 +112,7 @@ public class MeteorEntity extends Entity {
         for (Player player : this.level.players()) {
             if (!damageArea.contains(player.position())) continue;
             if (this.summoner.isPresent() && this.summoner.get() == player) continue;
+            if (this.summoner.isPresent() && summoner.get() instanceof Player) continue;
             if (player.isCreative()){
                 player.getPersistentData().putBoolean("MarkedByMeteor", true);
                 player.hurt(DamageSource.OUT_OF_WORLD, 11.0F);
@@ -132,8 +133,7 @@ public class MeteorEntity extends Entity {
             player.getPersistentData().putBoolean("MarkedByMeteor", true);
             player.hurt(DamageSource.MAGIC, DAMAGE);
             player.getPersistentData().remove("MarkedByMeteor");
-        }
-
+            }
         List<LivingEntity> entities = this.level.getEntitiesOfClass(LivingEntity.class, damageArea);
         for (LivingEntity entity : entities) {
             if (entity instanceof Player || entity instanceof TowerGuardianEntity) continue;
@@ -147,6 +147,8 @@ public class MeteorEntity extends Entity {
             }
             entity.hurt(DamageSource.MAGIC, DAMAGE_ON_ENTITY);
         }
+
+
 
         List<EndCrystal> crystals = this.level.getEntitiesOfClass(EndCrystal.class, damageArea);
         for (EndCrystal crystal : crystals) {

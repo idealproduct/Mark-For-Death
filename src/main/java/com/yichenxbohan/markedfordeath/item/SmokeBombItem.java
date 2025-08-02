@@ -26,6 +26,7 @@ public class SmokeBombItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
+
         if (!level.isClientSide && level instanceof ServerLevel serverLevel) {
             Random random = new Random();
 

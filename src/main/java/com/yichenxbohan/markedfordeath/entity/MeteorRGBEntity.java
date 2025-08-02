@@ -111,7 +111,7 @@ public class MeteorRGBEntity extends Entity {
         List<Player> players = this.level.getEntitiesOfClass(Player.class, damageArea);
         for (Player player : this.level.players()) {
             if (!damageArea.contains(player.position())) continue;
-            if (this.summonerRGB.isPresent() && this.summonerRGB.get() == player) continue;
+            if (this.summonerRGB.isPresent() || this.summonerRGB.get() == player) continue;
             if (player.isCreative()){
                 player.getPersistentData().putBoolean("MarkedByMeteor", true);
                 player.hurt(DamageSource.OUT_OF_WORLD, 20.0F);

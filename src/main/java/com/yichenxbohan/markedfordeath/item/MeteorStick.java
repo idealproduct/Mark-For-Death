@@ -1,8 +1,10 @@
 package com.yichenxbohan.markedfordeath.item;
 
+import com.mojang.datafixers.types.Type;
 import com.yichenxbohan.markedfordeath.entity.MeteorEntity;
 import com.yichenxbohan.markedfordeath.entity.MeteorRGBEntity;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -11,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,6 +60,12 @@ public class MeteorStick extends Item {
                     serverLevel.addFreshEntity(Meteor);
                     player.level.playSound(null, player.blockPosition(), METEOR_FALL_SOUND.get(), SoundSource.HOSTILE, 5.0F, 0.6F);
                 }
+            }
+        }
+        if (player instanceof ServerPlayer serverplayer){
+            GameType gamemode = serverplayer.gameMode.getGameModeForPlayer();
+            if(gamemode != GameType.CREATIVE) {
+            player.getCooldowns().addCooldown(this, 600);
             }
         }
         return InteractionResultHolder.success(stack);

@@ -37,7 +37,31 @@
         },
         {
           "type": "minecraft:item",
-          "name": "markedfordeath:meteor_stick",
+          "name": "markedfordeath:meteor_wand",
+          "weight": 1,
+          "quality": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "markedfordeath:soul_helmet",
+          "weight": 1,
+          "quality": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "markedfordeath:soul_chestplate",
+          "weight": 1,
+          "quality": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "markedfordeath:soul_leggings",
+          "weight": 1,
+          "quality": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "markedfordeath:soul_boots",
           "weight": 1,
           "quality": 2
         }

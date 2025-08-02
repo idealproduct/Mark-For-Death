@@ -1,6 +1,7 @@
 package com.yichenxbohan.markedfordeath.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.yichenxbohan.markedfordeath.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -21,7 +22,7 @@ public class TrackingEyeRenderer extends EntityRenderer<Entity> {
         super(context);
         this.itemRenderer = Minecraft.getInstance().getItemRenderer();
         // 請換成你自己註冊的TrackingEye物品
-        this.itemStack = new ItemStack(com.yichenxbohan.markedfordeath.item.ModItems.TRACKING_EYE.get());
+        this.itemStack = new ItemStack(ModItems.TRACKING_EYE.get());
     }
 
     @Override

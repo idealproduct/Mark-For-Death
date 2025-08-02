@@ -89,7 +89,7 @@ public class SoulDevourerItem extends SwordItem {
             double range = 10.0;
             serverLevel.getEntities(player, player.getBoundingBox().expandTowards(look.scale(range)).inflate(1.0),
                     e -> !e.is(player) && e instanceof LivingEntity).forEach(e -> {
-                e.hurt(DamageSource.OUT_OF_WORLD, 15.0F);
+                e.hurt(DamageSource.MAGIC, 15.0F);
 
                 // 💥 無視無敵幀：重設 invulnerableTime
                 ((LivingEntity) e).invulnerableTime = 0;
