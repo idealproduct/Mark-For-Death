@@ -96,7 +96,7 @@ public class SoulDevourerItem extends SwordItem {
             });
         }
 
-        player.getCooldowns().addCooldown(this, 0); // 你這裡是0，真的要變成無限可用？還是要設個冷卻？
+        player.getCooldowns().addCooldown(this, 10); // 0.5s cooldown
 
         return InteractionResultHolder.success(stack);
     }

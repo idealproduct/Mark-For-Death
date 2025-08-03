@@ -1,5 +1,6 @@
 package com.yichenxbohan.markedfordeath.entity;
 
+import com.yichenxbohan.markedfordeath.Config;
 import com.yichenxbohan.markedfordeath.entity.boss.TowerGuardianEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -111,22 +112,27 @@ public class MeteorRGBEntity extends Entity {
         List<Player> players = this.level.getEntitiesOfClass(Player.class, damageArea);
         for (Player player : this.level.players()) {
             if (!damageArea.contains(player.position())) continue;
-            if (this.summonerRGB.isPresent() || this.summonerRGB.get() == player) continue;
-            if (player.isCreative()){
-                player.getPersistentData().putBoolean("MarkedByMeteor", true);
-                player.hurt(DamageSource.OUT_OF_WORLD, 20.0F);
-                player.getPersistentData().remove("MarkedByMeteor");
-                break;
+            if (this.summonerRGB.isPresent() && this.summonerRGB.get() == player) continue;
+            if (!Config.WhetherMeteorSummonedByPlayerCanHurtPlayer){
+                if (this.summonerRGB.isPresent() && summonerRGB.get() instanceof Player) continue;
             }
-            if (player instanceof ServerPlayer serverplayer){
-                GameType gamemode = serverplayer.gameMode.getGameModeForPlayer();
-                if(gamemode == GameType.SPECTATOR){
-                    serverplayer.setGameMode(GameType.CREATIVE);
+            if (Config.WhetherMeteorCanHurtCreativeAndSpectator){
+                if (player.isCreative()){
                     player.getPersistentData().putBoolean("MarkedByMeteor", true);
                     player.hurt(DamageSource.OUT_OF_WORLD, 20.0F);
                     player.getPersistentData().remove("MarkedByMeteor");
-                    serverplayer.setGameMode(GameType.SPECTATOR);
                     break;
+                }
+                if (player instanceof ServerPlayer serverplayer){
+                    GameType gamemode = serverplayer.gameMode.getGameModeForPlayer();
+                    if(gamemode == GameType.SPECTATOR){
+                        serverplayer.setGameMode(GameType.CREATIVE);
+                        player.getPersistentData().putBoolean("MarkedByMeteor", true);
+                        player.hurt(DamageSource.OUT_OF_WORLD, 20.0F);
+                        player.getPersistentData().remove("MarkedByMeteor");
+                        serverplayer.setGameMode(GameType.SPECTATOR);
+                        break;
+                    }
                 }
             }
             player.getPersistentData().putBoolean("MarkedByMeteor", true);

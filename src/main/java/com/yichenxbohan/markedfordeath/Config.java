@@ -22,14 +22,19 @@ public class Config
 
     public static final ForgeConfigSpec CONFIG;
 
-    public static final ForgeConfigSpec.BooleanValue WhetherToEnableBetaItemsConfig;
+    public static final ForgeConfigSpec.BooleanValue WhetherMeteorSummonedByPlayerCanHurtPlayerConfig;
+    public static final ForgeConfigSpec.BooleanValue WhetherMeteorCanHurtCreativeAndSpectatorConfig;
 
     static{
         BUILDER.push("General Settings");
 
-        WhetherToEnableBetaItemsConfig = BUILDER
-                .comment("Whether to log the dirt block on common setup")
-                .define("logDirtBlock", true);
+        WhetherMeteorSummonedByPlayerCanHurtPlayerConfig = BUILDER
+                .comment("Whether Meteor Summoned By Player Can Hurt Player")
+                .define("Player's meteor can hurt player", true);
+
+        WhetherMeteorCanHurtCreativeAndSpectatorConfig = BUILDER
+                .comment("Whether Meteor Can Hurt Creative And Spectator")
+                .define("Meteor can hurt Creative and Spectator", true);
 
 
         BUILDER.pop();
@@ -37,10 +42,12 @@ public class Config
         CONFIG = BUILDER.build();
     }
 
-    public static boolean WhetherToEnableBetaItems;
+    public static boolean WhetherMeteorSummonedByPlayerCanHurtPlayer;
+    public static boolean WhetherMeteorCanHurtCreativeAndSpectator;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
-        WhetherToEnableBetaItems = WhetherToEnableBetaItemsConfig.get();
+        WhetherMeteorSummonedByPlayerCanHurtPlayer = WhetherMeteorSummonedByPlayerCanHurtPlayerConfig.get();
+        WhetherMeteorCanHurtCreativeAndSpectator = WhetherMeteorCanHurtCreativeAndSpectatorConfig.get();
     }
 }
