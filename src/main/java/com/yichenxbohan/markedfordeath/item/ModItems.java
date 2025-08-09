@@ -19,7 +19,7 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, markedfordeath.MODID);
 
     public static final RegistryObject<Item> SOUL_DEVOURER = ITEMS.register("soul_devourer",
-            () -> new SoulDevourerItem(Tiers.IRON, 4, -2.4F, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+            () -> new SoulDevourerItem(Tiers.NETHERITE, 4, -2.4F, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
 
     public static final RegistryObject<Item> SOUL_HELMET =
             ITEMS.register("soul_helmet", () -> new SoulArmorItem(ModArmorMaterial.SOUL, EquipmentSlot.HEAD, new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT).durability(9999)));

@@ -75,7 +75,7 @@ public class SoulDevourerItem extends SwordItem {
 
             player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 5, 9));
             player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 2));
-            player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100, 1));
+            player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 25, 1));
             // 粒子與攻擊
             Vec3 start = player.position().add(0, player.getEyeHeight(), 0);
             Vec3 look = player.getLookAngle().normalize();
@@ -96,7 +96,7 @@ public class SoulDevourerItem extends SwordItem {
             });
         }
 
-        player.getCooldowns().addCooldown(this, 10); // 0.5s cooldown
+        player.getCooldowns().addCooldown(this, 60); // 3s cooldown
 
         return InteractionResultHolder.success(stack);
     }

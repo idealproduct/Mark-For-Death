@@ -107,7 +107,7 @@ public class TowerGuardianEntity extends Monster {
 
         if (phase == 2 && meteorCooldown-- <= 0) {
             summonMeteorShower();
-            meteorCooldown = 200;
+            meteorCooldown = 600;
         }
     }
 

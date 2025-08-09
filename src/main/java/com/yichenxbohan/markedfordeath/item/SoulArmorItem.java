@@ -36,10 +36,10 @@ public class SoulArmorItem extends ArmorItem {
     @Override
     public void onArmorTick(ItemStack stack, Level level, net.minecraft.world.entity.player.Player player) {
         if (!level.isClientSide && this.slot == EquipmentSlot.CHEST) {
-            if (player.tickCount % 50 == 0) { // 每 50 tick（= 2.5 秒）執行一次
+            if (player.tickCount % 600 == 0) { // 每 50 tick（= 2.5 秒）執行一次
             // 只有穿著胸甲時觸發效果
-            player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200, 0, false, false));
-            player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 200, 2, false, false));
+            player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 600, 0, false, false));
+            player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 600, 2, false, false));
             player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 10, 9,false, false));
             }
         }
