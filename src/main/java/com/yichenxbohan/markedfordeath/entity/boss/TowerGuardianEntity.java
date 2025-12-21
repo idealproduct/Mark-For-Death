@@ -1,6 +1,7 @@
 package com.yichenxbohan.markedfordeath.entity.boss;
 
 import com.yichenxbohan.markedfordeath.entity.MeteorEntity;
+import com.yichenxbohan.markedfordeath.entity.MeteorUltraEntity;
 import com.yichenxbohan.markedfordeath.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -15,6 +16,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -57,7 +60,7 @@ public class TowerGuardianEntity extends Monster {
     // ===== BOSS 屬性定義 =====
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 300.0D)
+                .add(Attributes.MAX_HEALTH, 700.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.25D)
                 .add(Attributes.FOLLOW_RANGE, 32.0D)
                 .add(Attributes.ATTACK_DAMAGE, 7.0D)
@@ -76,6 +79,10 @@ public class TowerGuardianEntity extends Monster {
 
         bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
 
+        if(tickCount%500==0) {
+            addEffect(new MobEffectInstance(MobEffects.REGENERATION, 600, 1));
+            addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 600, 0));
+        }
         List<Player> players = this.level.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(32));
         if (players.isEmpty()) return;
 
@@ -160,7 +167,7 @@ public class TowerGuardianEntity extends Monster {
             double y = this.getY() + 200;
 
             this.level.playSound(null, this.blockPosition(), METEOR_FALL_SOUND.get(), SoundSource.HOSTILE, 2.0F, 0.6F);
-            MeteorEntity meteor = new MeteorEntity(serverLevel, x, y, z, Optional.empty());
+            MeteorUltraEntity meteor = new MeteorUltraEntity(serverLevel, x, y, z, Optional.empty());
             serverLevel.addFreshEntity(meteor);
         }
     }

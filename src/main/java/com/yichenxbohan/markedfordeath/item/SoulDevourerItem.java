@@ -6,6 +6,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -16,6 +17,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -96,7 +98,12 @@ public class SoulDevourerItem extends SwordItem {
             });
         }
 
-        player.getCooldowns().addCooldown(this, 60); // 3s cooldown
+        if (player instanceof ServerPlayer serverplayer){
+            GameType gamemode = serverplayer.gameMode.getGameModeForPlayer();
+            if(gamemode != GameType.CREATIVE) {
+                player.getCooldowns().addCooldown(this, 60);
+            }
+        } // 3s cooldown
 
         return InteractionResultHolder.success(stack);
     }

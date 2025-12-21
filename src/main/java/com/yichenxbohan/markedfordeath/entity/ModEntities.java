@@ -55,6 +55,13 @@ public class ModEntities {
                             .fireImmune()
                             .build("meteorrgb"));
 
+    public static final RegistryObject<EntityType<MeteorUltraEntity>> METEORULTRA =
+            ENTITIES.register("meteorultra", () ->
+                    EntityType.Builder.<MeteorUltraEntity>of((EntityType<MeteorUltraEntity> et, Level l) -> new MeteorUltraEntity(et, l, Optional.empty()), MobCategory.MISC)
+                            .sized(50.0F, 50.0F)
+                            .fireImmune()
+                            .build("meteorultra"));
+
 
     public static void register(IEventBus bus) {
         ENTITIES.register(bus);

@@ -3,6 +3,7 @@ package com.yichenxbohan.markedfordeath.item;
 import com.mojang.datafixers.types.Type;
 import com.yichenxbohan.markedfordeath.entity.MeteorEntity;
 import com.yichenxbohan.markedfordeath.entity.MeteorRGBEntity;
+import com.yichenxbohan.markedfordeath.entity.MeteorUltraEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -56,7 +57,7 @@ public class MeteorStick extends Item {
                     serverLevel.addFreshEntity(Meteorrgb);
                     player.level.playSound(null, player.blockPosition(), RGB_METEOR_FALL_SOUND.get(), SoundSource.HOSTILE, 5.0F, 1.0f);
                 }else{
-                    MeteorEntity Meteor = new MeteorEntity(serverLevel, x, y, z, Optional.of(player));
+                    MeteorUltraEntity Meteor = new MeteorUltraEntity(serverLevel, x, y, z, Optional.of(player));
                     serverLevel.addFreshEntity(Meteor);
                     player.level.playSound(null, player.blockPosition(), METEOR_FALL_SOUND.get(), SoundSource.HOSTILE, 5.0F, 0.6F);
                 }

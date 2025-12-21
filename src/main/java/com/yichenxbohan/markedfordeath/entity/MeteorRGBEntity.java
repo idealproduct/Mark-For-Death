@@ -31,8 +31,8 @@ import java.util.Random;
 
 public class MeteorRGBEntity extends Entity {
 
-    private static final float DAMAGE = 20.0F;
-    private static final float DAMAGE_ON_ENTITY = 60.0f;
+    private static final float DAMAGE = 1.4F;
+    private static final float DAMAGE_ON_ENTITY = 3.0f;
     private Optional<Player> summonerRGB = Optional.empty();
 
     public MeteorRGBEntity(EntityType<? extends MeteorRGBEntity> type, Level level, Optional<Player> summonerRGB) {
@@ -94,20 +94,6 @@ public class MeteorRGBEntity extends Entity {
             }
         }
 
-
-        if (this.isOnGround() || this.getY() < this.level.getMinBuildHeight() + 2) {
-            explode();
-            this.discard();
-        }
-    }
-
-    private void explode() {
-        if (!(this.level instanceof ServerLevel serverLevel)) return;
-        serverLevel.playSound(null, this.blockPosition(), SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE, 3.0F, 1.0F);
-
-        serverLevel.sendParticles(ParticleTypes.EXPLOSION,
-                this.getX(), this.getY(), this.getZ(), 10, 0.5, 0.5, 0.5, 0.1);
-
         AABB damageArea = this.getBoundingBox().inflate(20.0D);
         List<Player> players = this.level.getEntitiesOfClass(Player.class, damageArea);
         for (Player player : this.level.players()) {
@@ -121,6 +107,7 @@ public class MeteorRGBEntity extends Entity {
                     player.getPersistentData().putBoolean("MarkedByMeteor", true);
                     player.hurt(DamageSource.OUT_OF_WORLD, 20.0F);
                     player.getPersistentData().remove("MarkedByMeteor");
+                    ((LivingEntity) player).invulnerableTime = 0;
                     break;
                 }
                 if (player instanceof ServerPlayer serverplayer){
@@ -131,6 +118,7 @@ public class MeteorRGBEntity extends Entity {
                         player.hurt(DamageSource.OUT_OF_WORLD, 20.0F);
                         player.getPersistentData().remove("MarkedByMeteor");
                         serverplayer.setGameMode(GameType.SPECTATOR);
+                        ((LivingEntity) player).invulnerableTime = 0;
                         break;
                     }
                 }
@@ -138,6 +126,7 @@ public class MeteorRGBEntity extends Entity {
             player.getPersistentData().putBoolean("MarkedByMeteor", true);
             player.hurt(DamageSource.MAGIC, DAMAGE);
             player.getPersistentData().remove("MarkedByMeteor");
+            ((LivingEntity) player).invulnerableTime = 0;
         }
 
         List<LivingEntity> entities = this.level.getEntitiesOfClass(LivingEntity.class, damageArea);
@@ -145,6 +134,7 @@ public class MeteorRGBEntity extends Entity {
             if (entity instanceof Player || entity instanceof TowerGuardianEntity) continue;
             if (entity instanceof Witch){
                 entity.hurt(DamageSource.OUT_OF_WORLD, DAMAGE_ON_ENTITY);
+                ((LivingEntity) entity).invulnerableTime = 0;
                 break;
             }
             if (entity instanceof EnderDragon && players instanceof ServerPlayer serverplayer){
@@ -152,12 +142,26 @@ public class MeteorRGBEntity extends Entity {
                 break;
             }
             entity.hurt(DamageSource.MAGIC, DAMAGE_ON_ENTITY);
+            ((LivingEntity) entity).invulnerableTime = 0;
         }
 
         List<EndCrystal> crystals = this.level.getEntitiesOfClass(EndCrystal.class, damageArea);
         for (EndCrystal crystal : crystals) {
             crystal.hurt(DamageSource.MAGIC, DAMAGE);
         }
+
+        if (this.isOnGround() || this.getY() < this.level.getMinBuildHeight() + 2) {
+            explode();
+            this.discard();
+        }
+    }
+
+    private void explode() {
+        if (!(this.level instanceof ServerLevel serverLevel)) return;
+        serverLevel.playSound(null, this.blockPosition(), SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE, 3.0F, 1.0F);
+
+        serverLevel.sendParticles(ParticleTypes.EXPLOSION,
+                this.getX(), this.getY(), this.getZ(), 10, 0.5, 0.5, 0.5, 0.1);
     }
 
     @Override

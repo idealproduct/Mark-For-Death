@@ -38,7 +38,7 @@ public class CustomDeathMessageHandler {
                 }
             }
         }
-        if ("fireball".equals(source.getMsgId()) && player.getPersistentData().getBoolean("MarkedByMeteor")) {
+        if ("magic".equals(source.getMsgId()) && player.getPersistentData().getBoolean("MarkedByMeteor")) {
             if (player.level instanceof ServerLevel serverLevel && !serverLevel.isClientSide) {
                 // 取消原死亡事件，避免出現原死訊
                 event.setCanceled(true);

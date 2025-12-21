@@ -9,6 +9,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 
 public class FlashEyesItem extends Item{
@@ -27,7 +28,12 @@ public class FlashEyesItem extends Item{
                 stack.shrink(1);
             }
         }
-        player.getCooldowns().addCooldown(this, 1200);
+        if (player instanceof ServerPlayer serverplayer){
+            GameType gamemode = serverplayer.gameMode.getGameModeForPlayer();
+            if(gamemode != GameType.CREATIVE) {
+                player.getCooldowns().addCooldown(this, 1200);
+            }
+        }
         return InteractionResultHolder.success(stack);
     }
 }

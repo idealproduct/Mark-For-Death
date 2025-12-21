@@ -34,7 +34,7 @@ public class Config
 
         WhetherMeteorCanHurtCreativeAndSpectatorConfig = BUILDER
                 .comment("Whether Meteor Can Hurt Creative And Spectator")
-                .define("Meteor can hurt Creative and Spectator", true);
+                .define("Meteor can hurt Creative and Spectator", false);
 
 
         BUILDER.pop();

@@ -39,6 +39,7 @@ public class ClientEventHandler {
         EntityRenderers.register(ModEntities.TOWER_GUARDIAN.get(), TowerGuardianRenderer::new);
         event.registerEntityRenderer(ModEntities.METEOR.get(), MeteorRenderer::new);
         event.registerEntityRenderer(ModEntities.METEORRGB.get(), MeteorRGBRenderer::new);
+        event.registerEntityRenderer(ModEntities.METEORULTRA.get(), MeteorUltraRenderer::new);
 
     }
 
